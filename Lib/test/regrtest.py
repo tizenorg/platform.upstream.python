@@ -1547,16 +1547,5 @@ if __name__ == '__main__':
         if not os.path.exists(TEMPDIR):
             os.mkdir(TEMPDIR)
 
-    # Define a writable temp dir that will be used as cwd while running
-    # the tests. The name of the dir includes the pid to allow parallel
-    # testing (see the -j option).
-    TESTCWD = 'test_python_{}'.format(os.getpid())
-
-    TESTCWD = os.path.join(TEMPDIR, TESTCWD)
-
-    # Run the tests in a context manager that temporary changes the CWD to a
-    # temporary and writable directory. If it's not possible to create or
-    # change the CWD, the original CWD will be used. The original CWD is
-    # available from test_support.SAVEDCWD.
-    with test_support.temp_cwd(TESTCWD, quiet=True):
-        main()
+    # do not change directory, because it breaks distutils tests
+    main()

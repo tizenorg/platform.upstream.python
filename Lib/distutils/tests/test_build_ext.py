@@ -277,20 +277,14 @@ class BuildExtTestCase(support.TempdirManager,
 
         # issue #5977 : distutils build_ext.get_outputs
         # returns wrong result with --inplace
-        other_tmp_dir = os.path.realpath(self.mkdtemp())
-        old_wd = os.getcwd()
-        os.chdir(other_tmp_dir)
-        try:
-            cmd.inplace = 1
-            cmd.run()
-            so_file = cmd.get_outputs()[0]
-        finally:
-            os.chdir(old_wd)
+        cmd.inplace = 1
+        cmd.run()
+        so_file = cmd.get_outputs()[0]
         self.assertTrue(os.path.exists(so_file))
         self.assertEqual(os.path.splitext(so_file)[-1],
                          sysconfig.get_config_var('SO'))
         so_dir = os.path.dirname(so_file)
-        self.assertEqual(so_dir, other_tmp_dir)
+        self.assertEqual(so_dir, os.getcwd())
         cmd.compiler = None
         cmd.inplace = 0
         cmd.run()
