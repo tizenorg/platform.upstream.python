@@ -835,6 +835,9 @@ PyObject* pysqlite_cursor_executescript(pysqlite_Cursor* self, PyObject* args)
             goto error;
         }
 
+        if (! statement)
+            break;
+
         /* execute statement, and ignore results of SELECT statements */
         rc = SQLITE_ROW;
         while (rc == SQLITE_ROW) {
