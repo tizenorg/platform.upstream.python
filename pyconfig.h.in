@@ -106,6 +106,9 @@
 /* Define to 1 if you have the 'chflags' function. */
 #undef HAVE_CHFLAGS
 
+/* Define to 1 if you have the `canonicalize_file_name' function. */
+#undef HAVE_CANONICALIZE_FILE_NAME
+
 /* Define to 1 if you have the `chown' function. */
 #undef HAVE_CHOWN
 

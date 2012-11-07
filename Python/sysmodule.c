@@ -1620,7 +1620,20 @@ PySys_SetArgvEx(int argc, char **argv, int updatepath)
         char *p = NULL;
         Py_ssize_t n = 0;
         PyObject *a;
-#ifdef HAVE_READLINK
+#ifdef HAVE_CANONICALIZE_FILE_NAME
+        int errnum;
+
+        if (argc > 0 && argv0 != NULL && strcmp(argv0, "-c") != 0) {
+            argv0 = canonicalize_file_name(argv0);
+            if (argv0 == NULL) argv0 = strdup(argv[0]);
+        }
+#elif defined(HAVE_REALPATH)
+        if (argc > 0 && argv0 != NULL && strcmp(argv0, "-c") != 0) {
+            if (realpath(argv0, fullpath)) {
+                argv0 = fullpath;
+            }
+        }
+#elif defined(HAVE_READLINK)
         char link[MAXPATHLEN+1];
         char argv0copy[2*MAXPATHLEN+1];
         int nr = 0;
@@ -1647,7 +1660,8 @@ PySys_SetArgvEx(int argc, char **argv, int updatepath)
                 }
             }
         }
-#endif /* HAVE_READLINK */
+#endif /* resolve method selection */
+        
 #if SEP == '\\' /* Special case for MS filename syntax */
         if (argc > 0 && argv0 != NULL && strcmp(argv0, "-c") != 0) {
             char *q;
@@ -1676,11 +1690,6 @@ PySys_SetArgvEx(int argc, char **argv, int updatepath)
         }
 #else /* All other filename syntaxes */
         if (argc > 0 && argv0 != NULL && strcmp(argv0, "-c") != 0) {
-#if defined(HAVE_REALPATH)
-            if (realpath(argv0, fullpath)) {
-                argv0 = fullpath;
-            }
-#endif
             p = strrchr(argv0, SEP);
         }
         if (p != NULL) {
@@ -1698,6 +1707,9 @@ PySys_SetArgvEx(int argc, char **argv, int updatepath)
         a = PyString_FromStringAndSize(argv0, n);
         if (a == NULL)
             Py_FatalError("no mem for sys.path insertion");
+#ifdef HAVE_CANONICALIZE_FILE_NAME
+        if (argc > 0 && argv0 != NULL && strcmp(argv0, "-c") != 0) free(argv0);
+#endif /* HAVE_CANONICALIZE_FILE_NAME */
         if (PyList_Insert(path, 0, a) < 0)
             Py_FatalError("sys.path.insert(0) failed");
         Py_DECREF(a);
