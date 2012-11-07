@@ -5,6 +5,7 @@
  * standard Python regression test, via Lib/test/test_capi.py.
  */
 
+#define PY_SSIZE_T_CLEAN
 #include "Python.h"
 #include <float.h>
 #include "structmember.h"
@@ -1027,7 +1028,7 @@ test_u_code(PyObject *self)
 {
     PyObject *tuple, *obj;
     Py_UNICODE *value;
-    int len;
+    Py_ssize_t len;
 
     /* issue4122: Undefined reference to _Py_ascii_whitespace on Windows */
     /* Just use the macro and check that it compiles */
