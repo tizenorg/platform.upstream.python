@@ -17,20 +17,6 @@ Source1001:     %name.manifest
 # instead and run pre_checkin.sh
 # !!!!!!!!!!!!!!
 # COMMON-PATCH-BEGIN
-Patch1:         python-2.7-dirs.patch
-Patch2:         python-distutils-rpm-8.patch
-Patch3:         python-2.7.3rc2-multilib.patch
-Patch4:         python-2.5.1-sqlite.patch
-Patch5:         python-2.7.3rc2-canonicalize2.patch
-Patch6:         python-2.7rc2-configure.patch
-Patch7:         python-2.6-gettext-plurals.patch
-Patch8:         python-2.6b3-curses-panel.patch
-Patch9:         python-2.7.1-distutils_test_path.patch
-Patch12:        http://psf.upfronthosting.co.za/roundup/tracker/file19029/python-test_structmembers.patch
-Patch13:        python-2.7.2-fix_date_time_compiler.patch
-Patch16:        pypirc-secure.diff
-Patch17:        remove-static-libpython.diff
-Patch18:        python-2.7.3-ssl_ca_path.patch
 # COMMON-PATCH-END
 BuildRequires:  automake
 BuildRequires:  db4-devel
@@ -72,21 +58,6 @@ Console User Interface.
 %prep
 %setup -q -n %{tarname}
 # COMMON-PREP-BEGIN
-%patch1 -p1
-%patch2 -p1
-%patch3
-%patch4
-%patch5
-%patch6
-%patch7
-%patch8
-%patch9 -p1
-%patch12
-%patch13
-#skip test_io test for ppc,ppc64 as it broken.
-%patch16 -p1
-%patch17
-%patch18
 # COMMON-PREP-END
 
 # drop Autoconf version requirement
