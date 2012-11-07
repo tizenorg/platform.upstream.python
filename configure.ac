@@ -2913,7 +2913,7 @@ AC_CHECK_FUNCS(alarm setitimer getitimer bind_textdomain_codeset chown \
  getpriority getresuid getresgid getpwent getspnam getspent getsid getwd \
  initgroups kill killpg lchmod lchown lstat mkfifo mknod mktime mmap \
  mremap nice pathconf pause plock poll pthread_init \
- putenv readlink realpath \
+ putenv readlink realpath canonicalize_file_name \
  select sem_open sem_timedwait sem_getvalue sem_unlink setegid seteuid \
  setgid \
  setlocale setregid setreuid setsid setpgid setpgrp setuid setvbuf snprintf \
