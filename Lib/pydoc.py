@@ -352,7 +352,7 @@ class Doc:
 
         docloc = os.environ.get("PYTHONDOCS",
                                 "http://docs.python.org/library")
-        basedir = os.path.join(sys.exec_prefix, "lib",
+        basedir = os.path.join(sys.exec_prefix, sys.lib,
                                "python"+sys.version[0:3])
         if (isinstance(object, type(os)) and
             (object.__name__ in ('errno', 'exceptions', 'gc', 'imp',

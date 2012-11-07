@@ -5,10 +5,11 @@
 import unittest
 from test.test_support import verbose, import_module
 dl = import_module('dl', deprecated=True)
+import sys
 
 sharedlibs = [
-    ('/usr/lib/libc.so', 'getpid'),
-    ('/lib/libc.so.6', 'getpid'),
+    ('/usr/'+sys.lib+'/libc.so', 'getpid'),
+    ('/'+sys.lib+'/libc.so.6', 'getpid'),
     ('/usr/bin/cygwin1.dll', 'getpid'),
     ('/usr/lib/libc.dylib', 'getpid'),
     ]

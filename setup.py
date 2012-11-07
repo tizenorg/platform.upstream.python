@@ -369,7 +369,7 @@ class PyBuildExt(build_ext):
 
     def detect_modules(self):
         # Ensure that /usr/local is always used
-        add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
+        add_dir_to_list(self.compiler.library_dirs, '/usr/local/' + sys.lib)
         add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
         self.add_multiarch_paths()
 
@@ -427,8 +427,7 @@ class PyBuildExt(build_ext):
         # if a file is found in one of those directories, it can
         # be assumed that no additional -I,-L directives are needed.
         lib_dirs = self.compiler.library_dirs + [
-            '/lib64', '/usr/lib64',
-            '/lib', '/usr/lib',
+            '/' + sys.lib, '/usr/' + sys.lib,
             ]
         inc_dirs = self.compiler.include_dirs + ['/usr/include']
         exts = []
@@ -677,11 +676,11 @@ class PyBuildExt(build_ext):
             elif curses_library:
                 readline_libs.append(curses_library)
             elif self.compiler.find_library_file(lib_dirs +
-                                                     ['/usr/lib/termcap'],
+                                                     ['/usr/'+sys.lib+'/termcap'],
                                                      'termcap'):
                 readline_libs.append('termcap')
             exts.append( Extension('readline', ['readline.c'],
-                                   library_dirs=['/usr/lib/termcap'],
+                                   library_dirs=['/usr/'+sys.lib+'/termcap'],
                                    extra_link_args=readline_extra_link_args,
                                    libraries=readline_libs) )
         else:
@@ -1753,18 +1752,17 @@ class PyBuildExt(build_ext):
         # Check for various platform-specific directories
         if platform == 'sunos5':
             include_dirs.append('/usr/openwin/include')
-            added_lib_dirs.append('/usr/openwin/lib')
+            added_lib_dirs.append('/usr/openwin/' + sys.lib)
         elif os.path.exists('/usr/X11R6/include'):
             include_dirs.append('/usr/X11R6/include')
-            added_lib_dirs.append('/usr/X11R6/lib64')
-            added_lib_dirs.append('/usr/X11R6/lib')
+            added_lib_dirs.append('/usr/X11R6/' + sys.lib)
         elif os.path.exists('/usr/X11R5/include'):
             include_dirs.append('/usr/X11R5/include')
-            added_lib_dirs.append('/usr/X11R5/lib')
+            added_lib_dirs.append('/usr/X11R5/' + sys.lib)
         else:
             # Assume default location for X11
             include_dirs.append('/usr/X11/include')
-            added_lib_dirs.append('/usr/X11/lib')
+            added_lib_dirs.append('/usr/X11/' + sys.lib)
 
         # If Cygwin, then verify that X is installed before proceeding
         if platform == 'cygwin':

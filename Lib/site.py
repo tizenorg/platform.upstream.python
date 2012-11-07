@@ -300,13 +300,18 @@ def getsitepackages():
         if sys.platform in ('os2emx', 'riscos'):
             sitepackages.append(os.path.join(prefix, "Lib", "site-packages"))
         elif os.sep == '/':
-            sitepackages.append(os.path.join(prefix, "lib",
+            sitepackages.append(os.path.join(prefix, sys.lib,
                                         "python" + sys.version[:3],
                                         "site-packages"))
-            sitepackages.append(os.path.join(prefix, "lib", "site-python"))
+            sitepackages.append(os.path.join(prefix, sys.lib, "site-python"))
+            if sys.lib != "lib":
+                sitepackages.append(os.path.join(prefix, "lib",
+                                            "python" + sys.version[:3],
+                                            "site-packages"))
+                sitepackages.append(os.path.join(prefix, "lib", "site-python"))
         else:
             sitepackages.append(prefix)
-            sitepackages.append(os.path.join(prefix, "lib", "site-packages"))
+            sitepackages.append(os.path.join(prefix, sys.lib, "site-packages"))
         if sys.platform == "darwin":
             # for framework builds *only* we add the standard Apple
             # locations.

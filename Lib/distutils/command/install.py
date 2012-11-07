@@ -22,6 +22,8 @@ from site import USER_BASE
 from site import USER_SITE
 
 
+libname = sys.lib
+
 if sys.version < "2.2":
     WINDOWS_SCHEME = {
         'purelib': '$base',
@@ -42,7 +44,7 @@ else:
 INSTALL_SCHEMES = {
     'unix_prefix': {
         'purelib': '$base/lib/python$py_version_short/site-packages',
-        'platlib': '$platbase/lib/python$py_version_short/site-packages',
+        'platlib': '$platbase/'+libname+'/python$py_version_short/site-packages',
         'headers': '$base/include/python$py_version_short/$dist_name',
         'scripts': '$base/bin',
         'data'   : '$base',

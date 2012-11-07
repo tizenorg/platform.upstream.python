@@ -1419,6 +1419,10 @@ _PySys_Init(void)
                         PyString_FromString(Py_GetCopyright()));
     SET_SYS_FROM_STRING("platform",
                         PyString_FromString(Py_GetPlatform()));
+    SET_SYS_FROM_STRING("arch",
+                        PyString_FromString(Py_GetArch()));
+    SET_SYS_FROM_STRING("lib",
+                        PyString_FromString(Py_GetLib()));
     SET_SYS_FROM_STRING("executable",
                         PyString_FromString(Py_GetProgramFullPath()));
     SET_SYS_FROM_STRING("prefix",
