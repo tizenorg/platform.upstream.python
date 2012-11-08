@@ -250,6 +250,8 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %{_libdir}/python%{python_version}/lib-dynload/_json.so
 %{_libdir}/python%{python_version}/lib-dynload/_locale.so
 %{_libdir}/python%{python_version}/lib-dynload/_lsprof.so
+%{_libdir}/python%{python_version}/lib-dynload/audioop.so
+%{_libdir}/python%{python_version}/lib-dynload/dbm.so
 #%{_libdir}/python%{python_version}/lib-dynload/_md5.so
 %{_libdir}/python%{python_version}/lib-dynload/_multiprocessing.so
 %{_libdir}/python%{python_version}/lib-dynload/_random.so
