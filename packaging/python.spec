@@ -26,7 +26,6 @@ BuildRequires:  sqlite-devel
 BuildRequires:  zlib-devel
 %define         python_version    %(echo %{tarversion} | head -c 3)
 %define         idle_name         idle
-Requires:       python-base = %{version}
 Provides:       %{name} = %{python_version}
 Obsoletes:      python-elementtree
 Obsoletes:      python-nothreads
@@ -44,7 +43,7 @@ install python-devel package.
 %package curses
 Summary:        Python Interface to the (N)Curses Library
 Group:          Development/Libraries/Python
-Requires:       python-base = %{version}
+Requires:       python = %{version}
 Obsoletes:      pyth_cur
 Provides:       pyth_cur
 
@@ -56,7 +55,7 @@ Console User Interface.
 Summary:        Include Files and Libraries Mandatory for Building Python Modules
 Group:          Development/Languages/Python
 Requires:       glibc-devel
-Requires:       python-base = %{version}
+Requires:       python = %{version}
 
 %description -n python-devel
 The Python programming language's interpreter can be extended with
@@ -69,7 +68,7 @@ embedding Python in applications.
 %package -n python-xml
 Summary:        A Python XML Interface
 Group:          Development/Libraries/Python
-Requires:       python-base = %{version}
+Requires:       python = %{version}
 # pyxml used to live out of tree
 Provides:       pyxml = 0.8.5
 Obsoletes:      pyxml < 0.8.5
