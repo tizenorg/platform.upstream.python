@@ -8,16 +8,12 @@ Group:          Development/Languages/Python
 %define         tarversion %{version}
 %define         tarname Python-%{tarversion}
 Source0:        %{tarname}.tar.bz2
+Source1:        macros.python
 Source2:        pythonstart
 Source3:        python.sh
 Source4:        python.csh
+Source5:        _local.pth
 Source1001:     %name.manifest
-# !!!!!!!!!!!!!!
-# do not add or edit patches here. please edit python-base.spec
-# instead and run pre_checkin.sh
-# !!!!!!!!!!!!!!
-# COMMON-PATCH-BEGIN
-# COMMON-PATCH-END
 BuildRequires:  automake
 BuildRequires:  db4-devel
 BuildRequires:  fdupes
@@ -27,6 +23,7 @@ BuildRequires:  openssl-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  readline-devel
 BuildRequires:  sqlite-devel
+BuildRequires:  zlib-devel
 %define         python_version    %(echo %{tarversion} | head -c 3)
 %define         idle_name         idle
 Requires:       python-base = %{version}
@@ -55,10 +52,47 @@ Provides:       pyth_cur
 An easy to use interface to the (n)curses CUI library. CUI stands for
 Console User Interface.
 
+%package -n python-devel
+Summary:        Include Files and Libraries Mandatory for Building Python Modules
+Group:          Development/Languages/Python
+Requires:       glibc-devel
+Requires:       python-base = %{version}
+
+%description -n python-devel
+The Python programming language's interpreter can be extended with
+dynamically loaded extensions and can be embedded in other programs.
+
+This package contains header files, a static library, and development
+tools for building Python modules, extending the Python interpreter or
+embedding Python in applications.
+
+%package -n python-xml
+Summary:        A Python XML Interface
+Group:          Development/Libraries/Python
+Requires:       python-base = %{version}
+# pyxml used to live out of tree
+Provides:       pyxml = 0.8.5
+Obsoletes:      pyxml < 0.8.5
+
+%description -n python-xml
+The expat module is a Python interface to the expat XML parser. Since
+Python2.x, it is part of the core Python distribution.
+
+%package -n libpython
+Summary:        Python Interpreter shared library
+Group:          Development/Languages/Python
+
+%description -n libpython
+Python is an interpreted, object-oriented programming language, and is
+often compared to Tcl, Perl, Scheme, or Java.  You can find an overview
+of Python in the documentation and tutorials included in the python-doc
+(HTML) or python-doc-pdf (PDF) packages.
+
+This package contains libpython2.6 shared library for embedding in
+other applications.
+
 %prep
 %setup -q -n %{tarname}
-# COMMON-PREP-BEGIN
-# COMMON-PREP-END
 
 # drop Autoconf version requirement
 sed -i 's/^version_required/dnl version_required/' configure.in
@@ -82,7 +116,8 @@ touch Parser/asdl* Python/Python-ast.c Include/Python-ast.h
     --enable-shared \
     --enable-unicode=ucs4
 
-make %{?_smp_mflags}
+LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH \
+    make %{?_smp_mflags} profile-opt
 
 %install
 # replace rest of /usr/local/bin/python or /usr/bin/python2.x with /usr/bin/python
@@ -93,6 +128,15 @@ find . -wholename "./Parser" -prune -o -name '*.py' -type f -print0 | xargs -0 g
 ########################################
 export OPT=$(echo $RPM_OPT_FLAGS | sed -s "s/--param=ssp-buffer-size=32//g")
 %make_install 
+# install site-specific tweaks
+#ln -s python%{python_version} %{buildroot}%{_bindir}/python2
+install -m 644 %{SOURCE4} %{buildroot}%{_libdir}/python%{python_version}/distutils
+install -m 644 %{SOURCE5} %{buildroot}%{_libdir}/python%{python_version}/site-packages
+install -d -m 755 %{buildroot}%{_sysconfdir}/rpm
+install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/rpm
+# make sure /usr/lib/python/site-packages exists even on lib64 machines
+mkdir -p %{buildroot}%{_prefix}/lib/python%{python_version}/site-packages
+
 ########################################
 # some cleanups
 ########################################
@@ -103,96 +147,6 @@ for dir in bin include %{_lib} ; do
 done
 # kill imageop.so, it's insecure
 rm -f %{buildroot}/%{_libdir}/python%{python_version}/lib-dynload/imageop.so
-#cleanup for -base
-rm %{buildroot}%{_bindir}/python%{python_version}
-rm %{buildroot}%{_bindir}/python2
-rm %{buildroot}%{_bindir}/python
-rm %{buildroot}%{_bindir}/smtpd.py
-rm %{buildroot}%{_bindir}/pydoc
-rm %{buildroot}%{_bindir}/2to3
-rm %{buildroot}%{_mandir}/man1/python*
-rm %{buildroot}%{_libdir}/libpython*.so.*
-rm %{buildroot}%{_libdir}/python
-find %{buildroot}%{_libdir}/python%{python_version} -maxdepth 1 ! \( -name "ssl.py" \) -exec rm {} ";"
-rm %{buildroot}%{_bindir}/python%{python_version}-config
-rm %{buildroot}%{_bindir}/python2-config
-rm %{buildroot}%{_bindir}/python-config
-rm %{buildroot}%{_libdir}/pkgconfig/*
-rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/dbm.so
-rm -r %{buildroot}%{_includedir}/python
-rm -r %{buildroot}%{_includedir}/python%{python_version}
-rm -r %{buildroot}%{_libdir}/python%{python_version}/compiler
-rm -r %{buildroot}%{_libdir}/python%{python_version}/config
-rm -r %{buildroot}%{_libdir}/python%{python_version}/ctypes
-rm -r %{buildroot}%{_libdir}/python%{python_version}/distutils
-rm -r %{buildroot}%{_libdir}/python%{python_version}/email
-rm -r %{buildroot}%{_libdir}/python%{python_version}/encodings
-rm -r %{buildroot}%{_libdir}/python%{python_version}/hotshot
-rm -r %{buildroot}%{_libdir}/python%{python_version}/importlib
-rm -r %{buildroot}%{_libdir}/python%{python_version}/json
-rm -r %{buildroot}%{_libdir}/python%{python_version}/lib2to3
-rm -r %{buildroot}%{_libdir}/python%{python_version}/logging
-rm -r %{buildroot}%{_libdir}/python%{python_version}/multiprocessing
-rm -r %{buildroot}%{_libdir}/python%{python_version}/plat-*
-rm -r %{buildroot}%{_libdir}/python%{python_version}/pydoc_data
-rm -r %{buildroot}%{_libdir}/python%{python_version}/test
-rm -r %{buildroot}%{_libdir}/python%{python_version}/unittest
-rm -r %{buildroot}%{_libdir}/python%{python_version}/wsgiref
-rm -r %{buildroot}%{_libdir}/python%{python_version}/xml
-rm %{buildroot}%{_libdir}/libpython%{python_version}.so
-rm %{buildroot}%{_libdir}/python%{python_version}/site-packages/README
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_bisect.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_csv.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_collections.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_ctypes.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_ctypes_test.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_elementtree.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_functools.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_heapq.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_hotshot.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_io.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_json.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_locale.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_lsprof.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_multiprocessing.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_random.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_socket.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_struct.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_testcapi.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/array.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/binascii.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/bz2.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/cPickle.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/cStringIO.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/cmath.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/crypt.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/datetime.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/fcntl.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/future_builtins.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/grp.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/itertools.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/linuxaudiodev.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/math.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/mmap.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/nis.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/operator.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/ossaudiodev.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/parser.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/pyexpat.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/resource.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/select.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/spwd.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/strop.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/syslog.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/termios.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/time.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/unicodedata.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/zlib.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_codecs*.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/_multibytecodec.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/audioop.so
-rm -f %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/dl.so
-rm %{buildroot}%{_libdir}/python%{python_version}/lib-dynload/Python-%{tarversion}-py%{python_version}.egg-info
 # replace duplicate .pyo/.pyc with hardlinks
 %fdupes %{buildroot}/%{_libdir}/python%{python_version}
 ########################################
@@ -202,6 +156,14 @@ export PDOCS=%{buildroot}%{_docdir}/%{name}
 install -d -m 755 $PDOCS
 install -c -m 644 LICENSE                           $PDOCS/
 install -c -m 644 README                            $PDOCS/
+ln -s python%{python_version}.1.gz %{buildroot}%{_mandir}/man1/python.1.gz
+
+########################################
+# devel
+########################################
+# install Makefile.pre.in and Makefile.pre
+cp Makefile Makefile.pre.in Makefile.pre %{buildroot}%{_libdir}/python%{python_version}/config/
+
 ########################################
 # startup script
 ########################################
@@ -242,5 +204,135 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %{_libdir}/python%{python_version}/lib-dynload/_sqlite3.so
 %{_libdir}/python%{python_version}/lib-dynload/_ssl.so
 %{_libdir}/python%{python_version}/lib-dynload/readline.so
+%defattr(644, root, root, 755)
+%config %{_sysconfdir}/rpm/macros.python
+%doc %{_mandir}/man1/python.1*
+%doc %{_mandir}/man1/python%{python_version}.1*
+%dir %{_includedir}/python%{python_version}
+%{_includedir}/python%{python_version}/pyconfig.h
+%{_libdir}/python
+%dir %{_prefix}/lib/python%{python_version}
+%dir %{_prefix}/lib/python%{python_version}/site-packages
+%dir %{_libdir}/python%{python_version}
+%dir %{_libdir}/python%{python_version}/config
+%{_libdir}/python%{python_version}/config/Setup
+%{_libdir}/python%{python_version}/config/Makefile
+%{_libdir}/python%{python_version}/*.*
+%{_libdir}/python%{python_version}/compiler
+%{_libdir}/python%{python_version}/ctypes
+%{_libdir}/python%{python_version}/distutils
+%{_libdir}/python%{python_version}/email
+%{_libdir}/python%{python_version}/encodings
+%{_libdir}/python%{python_version}/hotshot
+%{_libdir}/python%{python_version}/importlib
+%{_libdir}/python%{python_version}/json
+%{_libdir}/python%{python_version}/lib2to3
+%{_libdir}/python%{python_version}/logging
+%{_libdir}/python%{python_version}/multiprocessing
+%{_libdir}/python%{python_version}/plat-*
+%{_libdir}/python%{python_version}/pydoc_data
+%{_libdir}/python%{python_version}/unittest
+%{_libdir}/python%{python_version}/wsgiref
+%dir %{_libdir}/python%{python_version}/site-packages
+%{_libdir}/python%{python_version}/site-packages/README
+%{_libdir}/python%{python_version}/site-packages/_local.pth
+%dir %{_libdir}/python%{python_version}/lib-dynload
+%{_libdir}/python%{python_version}/lib-dynload/_bisect.so
+%{_libdir}/python%{python_version}/lib-dynload/_csv.so
+%{_libdir}/python%{python_version}/lib-dynload/_collections.so
+%{_libdir}/python%{python_version}/lib-dynload/_ctypes.so
+%{_libdir}/python%{python_version}/lib-dynload/_ctypes_test.so
+%{_libdir}/python%{python_version}/lib-dynload/_elementtree.so
+%{_libdir}/python%{python_version}/lib-dynload/_functools.so
+%{_libdir}/python%{python_version}/lib-dynload/_heapq.so
+%{_libdir}/python%{python_version}/lib-dynload/_hotshot.so
+%{_libdir}/python%{python_version}/lib-dynload/_io.so
+%{_libdir}/python%{python_version}/lib-dynload/_json.so
+%{_libdir}/python%{python_version}/lib-dynload/_locale.so
+%{_libdir}/python%{python_version}/lib-dynload/_lsprof.so
+%{_libdir}/python%{python_version}/lib-dynload/_md5.so
+%{_libdir}/python%{python_version}/lib-dynload/_multiprocessing.so
+%{_libdir}/python%{python_version}/lib-dynload/_random.so
+%{_libdir}/python%{python_version}/lib-dynload/_sha.so
+%{_libdir}/python%{python_version}/lib-dynload/_sha256.so
+%{_libdir}/python%{python_version}/lib-dynload/_sha512.so
+%{_libdir}/python%{python_version}/lib-dynload/_socket.so
+%{_libdir}/python%{python_version}/lib-dynload/_struct.so
+%{_libdir}/python%{python_version}/lib-dynload/_testcapi.so
+%{_libdir}/python%{python_version}/lib-dynload/array.so
+%{_libdir}/python%{python_version}/lib-dynload/binascii.so
+%{_libdir}/python%{python_version}/lib-dynload/bz2.so
+%{_libdir}/python%{python_version}/lib-dynload/cPickle.so
+%{_libdir}/python%{python_version}/lib-dynload/cStringIO.so
+%{_libdir}/python%{python_version}/lib-dynload/cmath.so
+%{_libdir}/python%{python_version}/lib-dynload/crypt.so
+%{_libdir}/python%{python_version}/lib-dynload/datetime.so
+%{_libdir}/python%{python_version}/lib-dynload/fcntl.so
+%{_libdir}/python%{python_version}/lib-dynload/future_builtins.so
+%{_libdir}/python%{python_version}/lib-dynload/grp.so
+%{_libdir}/python%{python_version}/lib-dynload/itertools.so
+%{_libdir}/python%{python_version}/lib-dynload/linuxaudiodev.so
+%{_libdir}/python%{python_version}/lib-dynload/math.so
+%{_libdir}/python%{python_version}/lib-dynload/mmap.so
+%{_libdir}/python%{python_version}/lib-dynload/nis.so
+%{_libdir}/python%{python_version}/lib-dynload/operator.so
+%{_libdir}/python%{python_version}/lib-dynload/ossaudiodev.so
+%{_libdir}/python%{python_version}/lib-dynload/parser.so
+%{_libdir}/python%{python_version}/lib-dynload/resource.so
+%{_libdir}/python%{python_version}/lib-dynload/select.so
+%{_libdir}/python%{python_version}/lib-dynload/spwd.so
+%{_libdir}/python%{python_version}/lib-dynload/strop.so
+%{_libdir}/python%{python_version}/lib-dynload/syslog.so
+%{_libdir}/python%{python_version}/lib-dynload/termios.so
+%{_libdir}/python%{python_version}/lib-dynload/time.so
+%{_libdir}/python%{python_version}/lib-dynload/unicodedata.so
+%{_libdir}/python%{python_version}/lib-dynload/zlib.so
+%{_libdir}/python%{python_version}/lib-dynload/_codecs*.so
+%{_libdir}/python%{python_version}/lib-dynload/_multibytecodec.so
+%{_libdir}/python%{python_version}/lib-dynload/Python-%{tarversion}-py%{python_version}.egg-info
+# these modules don't support 64-bit arches (disabled by setup.py)
+%ifnarch x86_64
+# requires sizeof(int) == sizeof(long) == sizeof(char*)
+%{_libdir}/python%{python_version}/lib-dynload/dl.so
+%endif
+%attr(755, root, root) %{_bindir}/pydoc
+%attr(755, root, root) %{_bindir}/python
+%attr(755, root, root) %{_bindir}/python%{python_version}
+%attr(755, root, root) %{_bindir}/smtpd.py
+%{_bindir}/python2
+%exclude %{_bindir}/2to3
 
+%post -n libpython -p /sbin/ldconfig
+
+%postun -n libpython -p /sbin/ldconfig
+
+%files -n python-devel
+%manifest python.manifest
+%defattr(-, root, root)
+%{_libdir}/python%{python_version}/config/*
+%exclude %{_libdir}/python%{python_version}/config/Setup
+%exclude %{_libdir}/python%{python_version}/config/Makefile
+%defattr(644, root, root, 755)
+%{_libdir}/libpython*.so
+%{_libdir}/pkgconfig/python-%{python_version}.pc
+%{_libdir}/pkgconfig/python.pc
+%{_libdir}/pkgconfig/python2.pc
+%{_includedir}/python*
+%exclude %{_includedir}/python%{python_version}/pyconfig.h
+%{_libdir}/python%{python_version}/test
+%defattr(755, root, root)
+%{_bindir}/python-config
+%{_bindir}/python2-config
+%{_bindir}/python%{python_version}-config
+
+%files -n python-xml
+%manifest python.manifest
+%defattr(644, root, root, 755)
+%{_libdir}/python%{python_version}/xml
+%{_libdir}/python%{python_version}/lib-dynload/pyexpat.so
+
+%files -n libpython
+%manifest python.manifest
+%defattr(644, root, root)
+%{_libdir}/libpython*.so.*
 %changelog
