@@ -250,12 +250,12 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %{_libdir}/python%{python_version}/lib-dynload/_json.so
 %{_libdir}/python%{python_version}/lib-dynload/_locale.so
 %{_libdir}/python%{python_version}/lib-dynload/_lsprof.so
-%{_libdir}/python%{python_version}/lib-dynload/_md5.so
+#%{_libdir}/python%{python_version}/lib-dynload/_md5.so
 %{_libdir}/python%{python_version}/lib-dynload/_multiprocessing.so
 %{_libdir}/python%{python_version}/lib-dynload/_random.so
-%{_libdir}/python%{python_version}/lib-dynload/_sha.so
-%{_libdir}/python%{python_version}/lib-dynload/_sha256.so
-%{_libdir}/python%{python_version}/lib-dynload/_sha512.so
+#%{_libdir}/python%{python_version}/lib-dynload/_sha.so
+#%{_libdir}/python%{python_version}/lib-dynload/_sha256.so
+#%{_libdir}/python%{python_version}/lib-dynload/_sha512.so
 %{_libdir}/python%{python_version}/lib-dynload/_socket.so
 %{_libdir}/python%{python_version}/lib-dynload/_struct.so
 %{_libdir}/python%{python_version}/lib-dynload/_testcapi.so
