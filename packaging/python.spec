@@ -27,6 +27,8 @@ BuildRequires:  zlib-devel
 %define         python_version    %(echo %{tarversion} | head -c 3)
 %define         idle_name         idle
 Provides:       %{name} = %{python_version}
+# FIXME
+Provides:       /bin/python
 Obsoletes:      python-elementtree
 Obsoletes:      python-nothreads
 Obsoletes:      python-sqlite
