@@ -12,7 +12,7 @@ python -O -c "import sys, os, compileall; br='%{buildroot}'; compileall.compile_
 }
 %py_requires(d) \
 BuildRequires: /usr/bin/python %{-d:python-devel} \
-PreReq: python = %{py_ver}
+Requires(pre): python = %{py_ver}
 
 %python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib();")
 %python_sitearch %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib(True);")
