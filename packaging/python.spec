@@ -277,7 +277,6 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %{_libdir}/python%{python_version}/lib-dynload/linuxaudiodev.so
 %{_libdir}/python%{python_version}/lib-dynload/math.so
 %{_libdir}/python%{python_version}/lib-dynload/mmap.so
-%{_libdir}/python%{python_version}/lib-dynload/nis.so
 %{_libdir}/python%{python_version}/lib-dynload/operator.so
 %{_libdir}/python%{python_version}/lib-dynload/ossaudiodev.so
 %{_libdir}/python%{python_version}/lib-dynload/parser.so
