@@ -1,3 +1,6 @@
+* Tue Feb 19 2013 Anas Nashif <anas.nashif@intel.com> submit/trunk/20130112.140659@1b048b7
+- Packaging: Provide python(abi) = 2.7
+
 * Sat Jan 12 2013 Anas Nashif <anas.nashif@intel.com> upstream/2.7.3@ad84453
 - Remove nis.so for glibc 2.17
 
