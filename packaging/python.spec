@@ -29,7 +29,6 @@ BuildRequires:  zlib-devel
 Provides:       %{name} = %{python_version}
 # FIXME
 Provides:       /bin/python
-Provides:       python(abi) = 2.7
 Obsoletes:      python-elementtree
 Obsoletes:      python-nothreads
 Obsoletes:      python-sqlite
