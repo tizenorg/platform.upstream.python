@@ -248,6 +248,7 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %{_libdir}/python%{python_version}/lib-dynload/_heapq.so
 %{_libdir}/python%{python_version}/lib-dynload/_hotshot.so
 %{_libdir}/python%{python_version}/lib-dynload/_io.so
+%{_libdir}/python%{python_version}/lib-dynload/nis.so
 %{_libdir}/python%{python_version}/lib-dynload/_json.so
 %{_libdir}/python%{python_version}/lib-dynload/_locale.so
 %{_libdir}/python%{python_version}/lib-dynload/_lsprof.so
