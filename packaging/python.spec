@@ -181,14 +181,14 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %postun -p /sbin/ldconfig
 
 %files curses
-%manifest %name.manifest
+%manifest %{name}.manifest
 %defattr(644, root, root, 755)
 %{_libdir}/python%{python_version}/curses
 %{_libdir}/python%{python_version}/lib-dynload/_curses.so
 %{_libdir}/python%{python_version}/lib-dynload/_curses_panel.so
 
 %files
-%manifest %name.manifest
+%manifest %{name}.manifest
 %defattr(644, root, root, 755)
 %dir %{_docdir}/%{name}
 %doc %{_docdir}/%{name}/README
@@ -310,7 +310,7 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %postun -n libpython -p /sbin/ldconfig
 
 %files -n python-devel
-%manifest python.manifest
+%manifest %{name}.manifest
 %defattr(-, root, root)
 %{_libdir}/python%{python_version}/config/*
 %exclude %{_libdir}/python%{python_version}/config/Setup
@@ -329,13 +329,13 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %{_bindir}/python%{python_version}-config
 
 %files -n python-xml
-%manifest python.manifest
+%manifest %{name}.manifest
 %defattr(644, root, root, 755)
 %{_libdir}/python%{python_version}/xml
 %{_libdir}/python%{python_version}/lib-dynload/pyexpat.so
 
 %files -n libpython
-%manifest python.manifest
+%manifest %{name}.manifest
 %defattr(644, root, root)
 %{_libdir}/libpython*.so.*
 %changelog
