@@ -1,3 +1,8 @@
+* Fri Sep 06 2013 Anas Nashif <anas.nashif@intel.com> accepted/tizen/20130710.215023@f56f704
+- clean up groups/license
+- fix gcc 4.8 incompatibility
+- resetting manifest requested domain to floor
+
 * Sat Mar 30 2013 Anas Nashif <anas.nashif@intel.com> submit/trunk/20130219.185052@98825e9
 - Fixed file list
 
