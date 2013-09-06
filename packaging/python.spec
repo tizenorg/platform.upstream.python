@@ -4,7 +4,7 @@ Release:        1
 License:        Python-2.0
 Summary:        Python Interpreter
 Url:            http://www.python.org/
-Group:          Development/Languages/Python
+Group:          Development/Languages
 %define         tarversion %{version}
 %define         tarname Python-%{tarversion}
 Source0:        %{tarname}.tar.bz2
@@ -44,7 +44,6 @@ install python-devel package.
 
 %package curses
 Summary:        Python Interface to the (N)Curses Library
-Group:          Development/Libraries/Python
 Requires:       python = %{version}
 Obsoletes:      pyth_cur
 Provides:       pyth_cur
@@ -55,7 +54,6 @@ Console User Interface.
 
 %package -n python-devel
 Summary:        Include Files and Libraries Mandatory for Building Python Modules
-Group:          Development/Languages/Python
 Requires:       glibc-devel
 Requires:       python = %{version}
 
@@ -69,7 +67,6 @@ embedding Python in applications.
 
 %package -n python-xml
 Summary:        A Python XML Interface
-Group:          Development/Libraries/Python
 Requires:       python = %{version}
 # pyxml used to live out of tree
 Provides:       pyxml = 0.8.5
@@ -81,7 +78,6 @@ Python2.x, it is part of the core Python distribution.
 
 %package -n libpython
 Summary:        Python Interpreter shared library
-Group:          Development/Languages/Python
 
 %description -n libpython
 Python is an interpreted, object-oriented programming language, and is
@@ -155,7 +151,6 @@ rm -f %{buildroot}/%{_libdir}/python%{python_version}/lib-dynload/imageop.so
 ########################################
 export PDOCS=%{buildroot}%{_docdir}/%{name}
 install -d -m 755 $PDOCS
-install -c -m 644 LICENSE                           $PDOCS/
 install -c -m 644 README                            $PDOCS/
 ln -s python%{python_version}.1.gz %{buildroot}%{_mandir}/man1/python.1.gz
 
@@ -192,7 +187,7 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %defattr(644, root, root, 755)
 %dir %{_docdir}/%{name}
 %doc %{_docdir}/%{name}/README
-%doc %{_docdir}/%{name}/LICENSE
+%license LICENSE
 %config %{_sysconfdir}/pythonstart
 %config %{_sysconfdir}/profile.d/python.*
 %dir %{_libdir}/python%{python_version}
