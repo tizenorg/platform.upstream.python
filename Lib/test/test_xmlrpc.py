@@ -24,6 +24,11 @@ except ImportError:
     gzip = None
 
 try:
+    import gzip
+except ImportError:
+    gzip = None
+
+try:
     unicode
 except NameError:
     have_unicode = False
@@ -737,7 +742,7 @@ class GzipServerTestCase(BaseServerTestCase):
         with cm:
             p.pow(6, 8)
 
-    def test_gsip_response(self):
+    def test_gzip_response(self):
         t = self.Transport()
         p = xmlrpclib.ServerProxy(URL, transport=t)
         old = self.requestHandler.encode_threshold
@@ -749,6 +754,27 @@ class GzipServerTestCase(BaseServerTestCase):
         b = t.response_length
         self.requestHandler.encode_threshold = old
         self.assertTrue(a>b)
+
+    def test_gzip_decode_limit(self):
+        data = '\0' * xmlrpclib.MAX_GZIP_DECODE
+        encoded = xmlrpclib.gzip_encode(data)
+        decoded = xmlrpclib.gzip_decode(encoded)
+        self.assertEqual(len(decoded), xmlrpclib.MAX_GZIP_DECODE)
+
+        data = '\0' * (xmlrpclib.MAX_GZIP_DECODE + 1)
+        encoded = xmlrpclib.gzip_encode(data)
+
+        with self.assertRaisesRegexp(ValueError,
+                                     "max gzipped payload length exceeded"):
+            xmlrpclib.gzip_decode(encoded)
+
+        oldmax = xmlrpclib.MAX_GZIP_DECODE
+        try:
+            xmlrpclib.MAX_GZIP_DECODE = -1
+            xmlrpclib.gzip_decode(encoded)
+        finally:
+            xmlrpclib.MAX_GZIP_DECODE = oldmax
+
 
 #Test special attributes of the ServerProxy object
 class ServerProxyTestCase(unittest.TestCase):

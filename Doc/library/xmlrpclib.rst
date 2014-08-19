@@ -127,6 +127,15 @@ between conformable Python objects and XML on the wire.
       *__dict__* attribute and don't have a base class that is marshalled in a
       special way.
 
+.. data:: MAX_GZIP_DECODE
+
+   The module constant specifies the amount of bytes that are decompressed by
+   :func:`gzip_decode`. The default value is *20 MB*. A value of *-1* disables
+   the protection.
+
+   .. versionadded:: 2.7.4
+      The constant was added to strengthen the module against gzip bomb
+      attacks.
 
 .. seealso::
 

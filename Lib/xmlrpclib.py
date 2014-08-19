@@ -49,6 +49,7 @@
 # 2003-07-12 gp  Correct marshalling of Faults
 # 2003-10-31 mvl Add multicall support
 # 2004-08-20 mvl Bump minimum supported Python version to 2.1
+# 2013-01-20 ch  Add workaround for gzip bomb vulnerability
 #
 # Copyright (c) 1999-2002 by Secret Labs AB.
 # Copyright (c) 1999-2002 by Fredrik Lundh.
@@ -146,6 +147,10 @@ try:
     import gzip
 except ImportError:
     gzip = None #python can be built without zlib/gzip support
+
+# Limit the maximum amount of decoded data that is decompressed. The
+# limit prevents gzip bomb attacks.
+MAX_GZIP_DECODE = 20 * 1024 * 1024 # 20 MB
 
 # --------------------------------------------------------------------
 # Internal stuff
@@ -1178,11 +1183,16 @@ def gzip_decode(data):
     f = StringIO.StringIO(data)
     gzf = gzip.GzipFile(mode="rb", fileobj=f)
     try:
-        decoded = gzf.read()
+        if MAX_GZIP_DECODE < 0: # no limit
+            decoded = gzf.read()
+        else:
+            decoded = gzf.read(MAX_GZIP_DECODE + 1)
     except IOError:
         raise ValueError("invalid data")
     f.close()
     gzf.close()
+    if MAX_GZIP_DECODE >= 0 and len(decoded) > MAX_GZIP_DECODE:
+        raise ValueError("max gzipped payload length exceeded")
     return decoded
 
 ##
