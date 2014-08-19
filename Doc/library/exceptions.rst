@@ -38,10 +38,10 @@ handler or to report an error condition "just like" the situation in which the
 interpreter raises the same exception; but beware that there is nothing to
 prevent user code from raising an inappropriate error.
 
-The built-in exception classes can be sub-classed to define new exceptions;
-programmers are encouraged to at least derive new exceptions from the
-:exc:`Exception` class and not :exc:`BaseException`.  More information on
-defining exceptions is available in the Python Tutorial under
+The built-in exception classes can be subclassed to define new exceptions;
+programmers are encouraged to derive new exceptions from the :exc:`Exception`
+class or one of its subclasses, and not from :exc:`BaseException`.  More
+information on defining exceptions is available in the Python Tutorial under
 :ref:`tut-userexceptions`.
 
 The following exceptions are only used as base classes for other exceptions.
@@ -158,9 +158,9 @@ The following exceptions are the exceptions that are actually raised.
 
 .. exception:: GeneratorExit
 
-   Raise when a :term:`generator`\'s :meth:`close` method is called.  It
-   directly inherits from :exc:`BaseException` instead of :exc:`StandardError` since
-   it is technically not an error.
+   Raised when a :term:`generator`\'s :meth:`close` method is called.  It
+   directly inherits from :exc:`BaseException` instead of :exc:`StandardError`
+   since it is technically not an error.
 
    .. versionadded:: 2.5
 
@@ -286,8 +286,7 @@ The following exceptions are the exceptions that are actually raised.
 
    Raised when an error is detected that doesn't fall in any of the other
    categories.  The associated value is a string indicating what precisely went
-   wrong.  (This exception is mostly a relic from a previous version of the
-   interpreter; it is not used very much any more.)
+   wrong.
 
 
 .. exception:: StopIteration
@@ -346,7 +345,7 @@ The following exceptions are the exceptions that are actually raised.
    it has another type (such as a string), the object's value is printed and the
    exit status is one.
 
-   Instances have an attribute :attr:`code` which is set to the proposed exit
+   Instances have an attribute :attr:`!code` which is set to the proposed exit
    status or error message (defaulting to ``None``). Also, this exception derives
    directly from :exc:`BaseException` and not :exc:`StandardError`, since it is not
    technically an error.
@@ -356,7 +355,7 @@ The following exceptions are the exceptions that are actually raised.
    executed, and so that a debugger can execute a script without running the risk
    of losing control.  The :func:`os._exit` function can be used if it is
    absolutely positively necessary to exit immediately (for example, in the child
-   process after a call to :func:`fork`).
+   process after a call to :func:`os.fork`).
 
    The exception inherits from :exc:`BaseException` instead of :exc:`StandardError`
    or :exc:`Exception` so that it is not accidentally caught by code that catches
@@ -386,6 +385,30 @@ The following exceptions are the exceptions that are actually raised.
 
    Raised when a Unicode-related encoding or decoding error occurs.  It is a
    subclass of :exc:`ValueError`.
+
+   :exc:`UnicodeError` has attributes that describe the encoding or decoding
+   error.  For example, ``err.object[err.start:err.end]`` gives the particular
+   invalid input that the codec failed on.
+
+   .. attribute:: encoding
+
+       The name of the encoding that raised the error.
+
+   .. attribute:: reason
+
+       A string describing the specific codec error.
+
+   .. attribute:: object
+
+       The object the codec was attempting to encode or decode.
+
+   .. attribute:: start
+
+       The first index of invalid data in :attr:`object`.
+
+   .. attribute:: end
+
+       The index after the last invalid data in :attr:`object`.
 
    .. versionadded:: 2.0
 

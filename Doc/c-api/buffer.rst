@@ -21,8 +21,10 @@ first.
 
 Two examples of objects that support the buffer interface are strings and
 arrays. The string object exposes the character contents in the buffer
-interface's byte-oriented form. An array can also expose its contents, but it
-should be noted that array elements may be multi-byte values.
+interface's byte-oriented form. An array can only expose its contents via the
+old-style buffer interface. This limitation does not apply to Python 3,
+where :class:`memoryview` objects can be constructed from arrays, too.
+Array elements may be multi-byte values.
 
 An example user of the buffer interface is the file object's :meth:`write`
 method. Any object that can export a series of bytes through the buffer
@@ -33,7 +35,7 @@ returning data from the target object.
 Starting from version 1.6, Python has been providing Python-level buffer
 objects and a C-level buffer API so that any built-in or used-defined type can
 expose its characteristics. Both, however, have been deprecated because of
-various shortcomings, and have been officially removed in Python 3.0 in favour
+various shortcomings, and have been officially removed in Python 3 in favour
 of a new C-level buffer API and a new Python-level object named
 :class:`memoryview`.
 

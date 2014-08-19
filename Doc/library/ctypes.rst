@@ -215,7 +215,7 @@ more about :mod:`ctypes` data types.
 Fundamental data types
 ^^^^^^^^^^^^^^^^^^^^^^
 
-:mod:`ctypes` defines a number of primitive C compatible data types :
+:mod:`ctypes` defines a number of primitive C compatible data types:
 
 +----------------------+------------------------------------------+----------------------------+
 | ctypes type          | C type                                   | Python type                |
@@ -568,8 +568,8 @@ Here is a simple example of a POINT structure, which contains two integers named
    ValueError: too many initializers
    >>>
 
-You can, however, build much more complicated structures. Structures can itself
-contain other structures by using a structure as a field type.
+You can, however, build much more complicated structures.  A structure can
+itself contain other structures by using a structure as a field type.
 
 Here is a RECT structure which contains two POINTs named *upperleft* and
 *lowerright*::
@@ -601,6 +601,13 @@ for debugging because they can provide useful information::
 
 
 .. _ctypes-structureunion-alignment-byte-order:
+
+.. warning::
+
+   :mod:`ctypes` does not support passing unions or structures with bit-fields
+   to functions by value.  While this may work on 32-bit x86, it's not
+   guaranteed by the library to work in the general case.  Unions and
+   structures with bit-fields should always be passed to functions by pointer.
 
 Structure/union alignment and byte order
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -815,6 +822,11 @@ pointer types.  So, for ``POINTER(c_int)``, ctypes accepts an array of c_int::
    2
    3
    >>>
+
+In addition, if a function argument is explicitly declared to be a pointer type
+(such as ``POINTER(c_int)``) in :attr:`argtypes`, an object of the pointed
+type (``c_int`` in this case) can be passed to the function.  ctypes will apply
+the required :func:`byref` conversion in this case automatically.
 
 To set a POINTER type field to ``NULL``, you can assign ``None``::
 
@@ -1068,12 +1080,18 @@ As we can easily check, our array is sorted now::
    1 5 7 33 99
    >>>
 
-**Important note for callback functions:**
+.. note::
 
-Make sure you keep references to CFUNCTYPE objects as long as they are used from
-C code. :mod:`ctypes` doesn't, and if you don't, they may be garbage collected,
-crashing your program when a callback is made.
+   Make sure you keep references to :func:`CFUNCTYPE` objects as long as they
+   are used from C code. :mod:`ctypes` doesn't, and if you don't, they may be
+   garbage collected, crashing your program when a callback is made.
 
+   Also, note that if the callback function is called in a thread created
+   outside of Python's control (e.g. by the foreign code that calls the
+   callback), ctypes creates a new dummy Python thread on every invocation. This
+   behavior is correct for most purposes, but it means that values stored with
+   `threading.local` will *not* survive across different callbacks, even when
+   those calls are made from the same C thread.
 
 .. _ctypes-accessing-values-exported-from-dlls:
 
@@ -1153,8 +1171,8 @@ testing. Try it out with ``import __hello__`` for example.
 Surprises
 ^^^^^^^^^
 
-There are some edges in :mod:`ctypes` where you may be expect something else than
-what actually happens.
+There are some edge cases in :mod:`ctypes` where you might expect something
+other than what actually happens.
 
 Consider the following example::
 
@@ -1321,7 +1339,7 @@ returns the full pathname, but since there is no predefined naming scheme a call
 like ``find_library("c")`` will fail and return ``None``.
 
 If wrapping a shared library with :mod:`ctypes`, it *may* be better to determine
-the shared library name at development type, and hardcode that into the wrapper
+the shared library name at development time, and hardcode that into the wrapper
 module instead of using :func:`find_library` to locate the library at runtime.
 
 
@@ -1702,7 +1720,7 @@ the windows header file is this::
 
    WINUSERAPI int WINAPI
    MessageBoxA(
-       HWND hWnd ,
+       HWND hWnd,
        LPCSTR lpText,
        LPCSTR lpCaption,
        UINT uType);
@@ -1994,8 +2012,8 @@ Utility functions
 
 .. function:: sizeof(obj_or_type)
 
-   Returns the size in bytes of a ctypes type or instance memory buffer. Does the
-   same as the C ``sizeof()`` function.
+   Returns the size in bytes of a ctypes type or instance memory buffer.
+   Does the same as the C ``sizeof`` operator.
 
 
 .. function:: string_at(address[, size])
@@ -2339,7 +2357,7 @@ These are the fundamental ctypes data types:
 .. class:: c_bool
 
    Represent the C :c:type:`bool` datatype (more accurately, :c:type:`_Bool` from
-   C99).  Its value can be True or False, and the constructor accepts any object
+   C99).  Its value can be ``True`` or ``False``, and the constructor accepts any object
    that has a truth value.
 
    .. versionadded:: 2.6

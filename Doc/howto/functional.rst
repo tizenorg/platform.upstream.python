@@ -244,9 +244,9 @@ Built-in functions such as :func:`max` and :func:`min` can take a single
 iterator argument and will return the largest or smallest element.  The ``"in"``
 and ``"not in"`` operators also support iterators: ``X in iterator`` is true if
 X is found in the stream returned by the iterator.  You'll run into obvious
-problems if the iterator is infinite; ``max()``, ``min()``, and ``"not in"``
+problems if the iterator is infinite; ``max()``, ``min()``
 will never return, and if the element X never appears in the stream, the
-``"in"`` operator won't return either.
+``"in"`` and ``"not in"`` operators won't return either.
 
 Note that you can only go forward in an iterator; there's no way to get the
 previous element, reset the iterator, or make a copy of it.  Iterator objects
@@ -587,7 +587,8 @@ And here's an example of changing the counter:
 
 Because ``yield`` will often be returning ``None``, you should always check for
 this case.  Don't just use its value in expressions unless you're sure that the
-``send()`` method will be the only method used resume your generator function.
+``send()`` method will be the only method used to resume your generator
+function.
 
 In addition to ``send()``, there are two other new methods on generators:
 
@@ -743,8 +744,8 @@ the constructed list's ``.sort()`` method. ::
 Python wiki at http://wiki.python.org/moin/HowTo/Sorting.)
 
 The ``any(iter)`` and ``all(iter)`` built-ins look at the truth values of an
-iterable's contents.  :func:`any` returns True if any element in the iterable is
-a true value, and :func:`all` returns True if all of the elements are true
+iterable's contents.  :func:`any` returns ``True`` if any element in the iterable is
+a true value, and :func:`all` returns ``True`` if all of the elements are true
 values:
 
     >>> any([0,1,0])

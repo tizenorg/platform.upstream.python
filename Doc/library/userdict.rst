@@ -114,8 +114,8 @@ The :mod:`UserList` module defines the :class:`UserList` class:
 
    .. note::
       The :class:`UserList` class has been moved to the :mod:`collections`
-      module in Python 3.0. The :term:`2to3` tool will automatically adapt
-      imports when converting your sources to 3.0.
+      module in Python 3. The :term:`2to3` tool will automatically adapt
+      imports when converting your sources to Python 3.
 
 
 In addition to supporting the methods and operations of mutable sequences (see
@@ -128,7 +128,7 @@ attribute:
    A real Python list object used to store the contents of the :class:`UserList`
    class.
 
-**Subclassing requirements:** Subclasses of :class:`UserList` are expect to
+**Subclassing requirements:** Subclasses of :class:`UserList` are expected to
 offer a constructor which can be called with either no arguments or one
 argument.  List operations which return a new sequence attempt to create an
 instance of the actual implementation class.  To do so, it assumes that the
@@ -187,8 +187,8 @@ The :mod:`UserString` module defines the following classes:
 
    .. note::
       The :class:`UserString` class has been moved to the :mod:`collections`
-      module in Python 3.0. The :term:`2to3` tool will automatically adapt
-      imports when converting your sources to 3.0.
+      module in Python 3. The :term:`2to3` tool will automatically adapt
+      imports when converting your sources to Python 3.
 
 
 
@@ -203,7 +203,7 @@ The :mod:`UserString` module defines the following classes:
    hard to track down.
 
    .. deprecated:: 2.6
-      The :class:`MutableString` class has been removed in Python 3.0.
+      The :class:`MutableString` class has been removed in Python 3.
 
 In addition to supporting the methods and operations of string and Unicode
 objects (see section :ref:`string-methods`), :class:`UserString` instances

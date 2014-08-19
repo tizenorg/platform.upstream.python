@@ -284,7 +284,7 @@ platforms use 32-bit pointers and will use a Python integer.
 For the ``'?'`` format character, the return value is either :const:`True` or
 :const:`False`. When packing, the truth value of the argument object is used.
 Either 0 or 1 in the native or standard bool representation will be packed, and
-any non-zero value will be True when unpacking.
+any non-zero value will be ``True`` when unpacking.
 
 
 
@@ -386,7 +386,7 @@ The :mod:`struct` module also defines the following type:
       (``len(string)`` must equal :attr:`self.size`).
 
 
-   .. method:: unpack_from(buffer[, offset=0])
+   .. method:: unpack_from(buffer, offset=0)
 
       Identical to the :func:`unpack_from` function, using the compiled format.
       (``len(buffer[offset:])`` must be at least :attr:`self.size`).

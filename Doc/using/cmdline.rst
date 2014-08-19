@@ -397,18 +397,9 @@ Miscellaneous options
 
 .. cmdoption:: -3
 
-   Warn about Python 3.x incompatibilities which cannot be fixed trivially by
-   :ref:`2to3 <2to3-reference>`. Among these are:
-
-   * :meth:`dict.has_key`
-   * :func:`apply`
-   * :func:`callable`
-   * :func:`coerce`
-   * :func:`execfile`
-   * :func:`reduce`
-   * :func:`reload`
-
-   Using these will emit a :exc:`DeprecationWarning`.
+   Warn about Python 3.x possible incompatibilities by emitting a
+   :exc:`DeprecationWarning` for features that are removed or significantly
+   changed in Python 3.
 
    .. versionadded:: 2.6
 
@@ -442,7 +433,10 @@ Options you shouldn't use
 Environment variables
 ---------------------
 
-These environment variables influence Python's behavior.
+These environment variables influence Python's behavior, they are processed
+before the command-line switches other than -E.  It is customary that
+command-line switches override environmental variables where there is a
+conflict.
 
 .. envvar:: PYTHONHOME
 
@@ -541,7 +535,8 @@ These environment variables influence Python's behavior.
 .. envvar:: PYTHONDONTWRITEBYTECODE
 
    If this is set, Python won't try to write ``.pyc`` or ``.pyo`` files on the
-   import of source modules.
+   import of source modules.  This is equivalent to specifying the :option:`-B`
+   option.
 
    .. versionadded:: 2.6
 
@@ -637,4 +632,3 @@ if Python was configured with the ``--with-pydebug`` build option.
 
    If set, Python will print memory allocation statistics every time a new
    object arena is created, and on shutdown.
-
