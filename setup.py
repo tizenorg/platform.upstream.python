@@ -883,7 +883,7 @@ class PyBuildExt(build_ext):
         # a release.  Most open source OSes come with one or more
         # versions of BerkeleyDB already installed.
 
-        max_db_ver = (5, 3)
+        max_db_ver = (6, 0)
         min_db_ver = (4, 3)
         db_setup_debug = False   # verbose debug prints from this script?
 
@@ -923,6 +923,7 @@ class PyBuildExt(build_ext):
         # construct a list of paths to look for the header file in on
         # top of the normal inc_dirs.
         db_inc_paths = [
+            '/usr/include/db6',
             '/usr/include/db4',
             '/usr/local/include/db4',
             '/opt/sfw/include/db4',
@@ -962,6 +963,7 @@ class PyBuildExt(build_ext):
         for dn in inc_dirs:
             std_variants.append(os.path.join(dn, 'db3'))
             std_variants.append(os.path.join(dn, 'db4'))
+            std_variants.append(os.path.join(dn, 'db6'))
             for x in gen_db_minor_ver_nums(4):
                 std_variants.append(os.path.join(dn, "db4%d"%x))
                 std_variants.append(os.path.join(dn, "db4.%d"%x))

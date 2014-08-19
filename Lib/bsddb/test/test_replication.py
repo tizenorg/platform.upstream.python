@@ -165,21 +165,10 @@ class DBReplicationManager(DBReplication) :
         # is not generated if the master has no new transactions.
         # This is solved in BDB 4.6 (#15542).
         import time
-        timeout = time.time()+60
+        timeout = time.time()+10
         while (time.time()<timeout) and not (self.confirmed_master and self.client_startupdone) :
             time.sleep(0.02)
-        # self.client_startupdone does not always get set to True within
-        # the timeout.  On windows this may be a deep issue, on other
-        # platforms it is likely just a timing issue, especially on slow
-        # virthost buildbots (see issue 3892 for more).  Even though
-        # the timeout triggers, the rest of this test method usually passes
-        # (but not all of it always, see below).  So we just note the
-        # timeout on stderr and keep soldering on.
-        if time.time()>timeout:
-            import sys
-            print >> sys.stderr, ("XXX: timeout happened before"
-                "startup was confirmed - see issue 3892")
-            startup_timeout = True
+        self.assertTrue(time.time()<timeout)
 
         d = self.dbenvMaster.repmgr_site_list()
         self.assertEqual(len(d), 1)
@@ -239,14 +228,6 @@ class DBReplicationManager(DBReplication) :
             txn.commit()
             if v is None :
                 time.sleep(0.02)
-        # If startup did not happen before the timeout above, then this test
-        # sometimes fails.  This happens randomly, which causes buildbot
-        # instability, but all the other bsddb tests pass.  Since bsddb3 in the
-        # stdlib is currently not getting active maintenance, and is gone in
-        # py3k, we just skip the end of the test in that case.
-        if time.time()>=timeout and startup_timeout:
-            self.skipTest("replication test skipped due to random failure, "
-                "see issue 3892")
         self.assertTrue(time.time()<timeout)
         self.assertEqual("123", v)
 
@@ -377,7 +358,7 @@ class DBBaseReplication(DBReplication) :
         # is not generated if the master has no new transactions.
         # This is solved in BDB 4.6 (#15542).
         import time
-        timeout = time.time()+60
+        timeout = time.time()+10
         while (time.time()<timeout) and not (self.confirmed_master and
                 self.client_startupdone) :
             time.sleep(0.02)

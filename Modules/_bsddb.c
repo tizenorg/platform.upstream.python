@@ -124,10 +124,14 @@ typedef int Py_ssize_t;
 #define NUMBER_Check    PyLong_Check
 #define NUMBER_AsLong   PyLong_AsLong
 #define NUMBER_FromLong PyLong_FromLong
+#define NUMBER_FromUnsignedLong PyLong_FromUnsignedLong
 #else
 #define NUMBER_Check    PyInt_Check
 #define NUMBER_AsLong   PyInt_AsLong
 #define NUMBER_FromLong PyInt_FromLong
+#if (PY_VERSION_HEX >= 0x02050000)
+#define NUMBER_FromUnsignedLong PyInt_FromSize_t
+#endif
 #endif
 
 #ifdef WITH_THREAD
@@ -852,6 +856,18 @@ static void _addIntToDict(PyObject* dict, char *name, int value)
 
     Py_XDECREF(v);
 }
+
+#if (DBVER >= 60) && (PY_VERSION_HEX >= 0x02050000)
+/* add an unsigned integer to a dictionary using the given name as a key */
+static void _addUnsignedIntToDict(PyObject* dict, char *name, unsigned int value)
+{
+    PyObject* v = NUMBER_FromUnsignedLong((unsigned long) value);
+    if (!v || PyDict_SetItemString(dict, name, v))
+        PyErr_Clear();
+
+    Py_XDECREF(v);
+}
+#endif
 
 /* The same, when the value is a time_t */
 static void _addTimeTToDict(PyObject* dict, char *name, time_t value)
@@ -2655,12 +2671,20 @@ _default_cmp(const DBT *leftKey,
 static int
 _db_compareCallback(DB* db,
                     const DBT *leftKey,
-                    const DBT *rightKey)
+            const DBT *rightKey
+#if (DBVER >= 60)
+          , size_t *locp
+#endif
+            )
 {
     int res = 0;
     PyObject *args;
     PyObject *result = NULL;
     DBObject *self = (DBObject *)db->app_private;
+
+# if (DBVER >= 60)
+    locp = NULL;  /* As required by documentation */
+#endif
 
     if (self == NULL || self->btCompareCallback == NULL) {
         MYDB_BEGIN_BLOCK_THREADS;
@@ -2769,12 +2793,20 @@ DB_set_bt_compare(DBObject* self, PyObject* comparator)
 static int
 _db_dupCompareCallback(DB* db,
 		    const DBT *leftKey,
-		    const DBT *rightKey)
+            const DBT *rightKey
+#if (DBVER >= 60)
+          , size_t *locp
+#endif
+        )
 {
     int res = 0;
     PyObject *args;
     PyObject *result = NULL;
     DBObject *self = (DBObject *)db->app_private;
+
+#if (DBVER >= 60)
+    locp = NULL;  /* As required by documentation */
+#endif
 
     if (self == NULL || self->dupCompareCallback == NULL) {
 	MYDB_BEGIN_BLOCK_THREADS;
@@ -3552,12 +3584,13 @@ Py_ssize_t DB_length(PyObject* _self)
     err = self->db->stat(self->db, /*txnid*/ NULL, &sp, 0);
     MYDB_END_ALLOW_THREADS;
 
+    if (makeDBError(err)) {
+        return -1;
+    }
+
     /* All the stat structures have matching fields upto the ndata field,
        so we can use any of them for the type cast */
     size = ((DB_BTREE_STAT*)sp)->bt_ndata;
-
-    if (err)
-        return -1;
 
     free(sp);
     return size;
@@ -8399,12 +8432,22 @@ static PyObject*
 DBSequence_get(DBSequenceObject* self, PyObject* args, PyObject* kwargs)
 {
     int err, flags = 0;
+#if (DBVER >= 60)
+    unsigned
+#endif
     int delta = 1;
     db_seq_t value;
     PyObject *txnobj = NULL;
     DB_TXN *txn = NULL;
     static char* kwnames[] = {"delta", "txn", "flags", NULL };
-    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "|iOi:get", kwnames, &delta, &txnobj, &flags))
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+#if (DBVER >=60)
+            "|IOi:get",
+#else
+            "|iOi:get",
+#endif
+            kwnames, &delta, &txnobj, &flags))
         return NULL;
     CHECK_SEQUENCE_NOT_CLOSED(self)
 
@@ -8534,8 +8577,19 @@ DBSequence_remove(DBSequenceObject* self, PyObject* args, PyObject* kwargs)
 static PyObject*
 DBSequence_set_cachesize(DBSequenceObject* self, PyObject* args)
 {
-    int err, size;
-    if (!PyArg_ParseTuple(args,"i:set_cachesize", &size))
+    int err;
+#if (DBVER >= 60)
+    unsigned
+#endif
+    int size;
+
+    if (!PyArg_ParseTuple(args,
+#if (DBVER >= 60)
+            "I:set_cachesize",
+#else
+            "i:set_cachesize",
+#endif
+            &size))
         return NULL;
     CHECK_SEQUENCE_NOT_CLOSED(self)
 
@@ -8550,7 +8604,11 @@ DBSequence_set_cachesize(DBSequenceObject* self, PyObject* args)
 static PyObject*
 DBSequence_get_cachesize(DBSequenceObject* self)
 {
-    int err, size;
+    int err;
+#if (DBVER >= 60)
+    unsigned
+#endif
+    int size;
 
     CHECK_SEQUENCE_NOT_CLOSED(self)
 
@@ -8679,6 +8737,9 @@ DBSequence_stat(DBSequenceObject* self, PyObject* args, PyObject* kwargs)
 
 
 #define MAKE_INT_ENTRY(name)  _addIntToDict(dict_stat, #name, sp->st_##name)
+#if (DBVER >= 60) && (PY_VERSION_HEX >= 0x02050000)
+#define MAKE_UNSIGNED_INT_ENTRY(name)   _addUnsignedIntToDict(dict_stat, #name, sp->st_##name)
+#endif
 #define MAKE_LONG_LONG_ENTRY(name)  _addDb_seq_tToDict(dict_stat, #name, sp->st_##name)
 
     MAKE_INT_ENTRY(wait);
@@ -8688,10 +8749,15 @@ DBSequence_stat(DBSequenceObject* self, PyObject* args, PyObject* kwargs)
     MAKE_LONG_LONG_ENTRY(last_value);
     MAKE_LONG_LONG_ENTRY(min);
     MAKE_LONG_LONG_ENTRY(max);
+#if (DBVER >= 60) && (PY_VERSION_HEX >= 0x02050000)
+    MAKE_UNSIGNED_INT_ENTRY(cache_size);
+#else
     MAKE_INT_ENTRY(cache_size);
+#endif
     MAKE_INT_ENTRY(flags);
 
 #undef MAKE_INT_ENTRY
+#undef MAKE_UNSIGNED_INT_ENTRY
 #undef MAKE_LONG_LONG_ENTRY
 
     free(sp);
@@ -8993,7 +9059,7 @@ static PyMethodDef DBEnv_methods[] = {
     {"txn_recover",     (PyCFunction)DBEnv_txn_recover,     METH_NOARGS},
 #if (DBVER < 48)
     {"set_rpc_server",  (PyCFunction)DBEnv_set_rpc_server,
-        METH_VARARGS|METH_KEYWORDS},
+        METH_VARARGS||METH_KEYWORDS},
 #endif
     {"set_mp_max_openfd", (PyCFunction)DBEnv_set_mp_max_openfd, METH_VARARGS},
     {"get_mp_max_openfd", (PyCFunction)DBEnv_get_mp_max_openfd, METH_NOARGS},
@@ -9965,6 +10031,10 @@ PyMODINIT_FUNC  PyInit__bsddb(void)    /* Note the two underscores */
     ADD_INT(d, DB_LOG_ZERO);
 #endif
 
+#if (DBVER >= 60)
+    ADD_INT(d, DB_LOG_BLOB);
+#endif
+
 #if (DBVER >= 44)
     ADD_INT(d, DB_DSYNC_DB);
 #endif
@@ -10023,6 +10093,10 @@ PyMODINIT_FUNC  PyInit__bsddb(void)    /* Note the two underscores */
 #if (DBVER >= 48)
     ADD_INT(d, DB_EVENT_REG_ALIVE);
     ADD_INT(d, DB_EVENT_REG_PANIC);
+#endif
+
+#if (DBVER >= 60)
+    ADD_INT(d, DB_EVENT_REP_AUTOTAKEOVER_FAILED);
 #endif
 
 #if (DBVER >=52)
@@ -10127,6 +10201,20 @@ PyMODINIT_FUNC  PyInit__bsddb(void)    /* Note the two underscores */
 
 #if (DBVER >= 48)
     ADD_INT(d, DB_REP_CONF_INMEM);
+#endif
+
+#if (DBVER >= 60)
+    ADD_INT(d, DB_REPMGR_ISVIEW);
+#endif
+
+#if (DBVER >= 60)
+    ADD_INT(d, DB_DBT_BLOB);
+#endif
+
+#if (DBVER >= 60)
+    ADD_INT(d, DB_STREAM_READ);
+    ADD_INT(d, DB_STREAM_WRITE);
+    ADD_INT(d, DB_STREAM_SYNC_WRITE);
 #endif
 
     ADD_INT(d, DB_TIMEOUT);
