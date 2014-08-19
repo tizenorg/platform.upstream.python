@@ -116,9 +116,11 @@
 #define EXEC_PREFIX PREFIX
 #endif
 
+#define LIB_PYTHON LIB "/python" VERSION
+
 #ifndef PYTHONPATH
-#define PYTHONPATH PREFIX "/lib/python" VERSION ":" \
-              EXEC_PREFIX "/lib/python" VERSION "/lib-dynload"
+#define PYTHONPATH PREFIX "/" LIB_PYTHON ":" \
+              EXEC_PREFIX "/" LIB_PYTHON "/lib-dynload"
 #endif
 
 #ifndef LANDMARK
@@ -129,7 +131,7 @@ static char prefix[MAXPATHLEN+1];
 static char exec_prefix[MAXPATHLEN+1];
 static char progpath[MAXPATHLEN+1];
 static char *module_search_path = NULL;
-static char lib_python[] = "lib/python" VERSION;
+static char lib_python[] = LIB_PYTHON;
 
 static void
 reduce(char *dir)

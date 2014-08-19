@@ -754,10 +754,10 @@ def main(argv=None):
                 # should I also call expanduser? (after all, could use $HOME)
 
                 s = s.replace("$prefix",
-                              os.path.join(sys.prefix, "lib",
+                              os.path.join(sys.prefix, sys.lib,
                                            "python" + sys.version[:3]))
                 s = s.replace("$exec_prefix",
-                              os.path.join(sys.exec_prefix, "lib",
+                              os.path.join(sys.exec_prefix, sys.lib,
                                            "python" + sys.version[:3]))
                 s = os.path.normpath(s)
                 ignore_dirs.append(s)
