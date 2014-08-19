@@ -92,7 +92,7 @@ other applications.
 %setup -q -n %{tarname}
 
 # drop Autoconf version requirement
-sed -i 's/^version_required/dnl version_required/' configure.in
+sed -i 's/^version_required/dnl version_required/' configure.ac
 
 # remove newslist.py because of bad license
 rm Demo/scripts/newslist.*
@@ -203,6 +203,7 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %defattr(644, root, root, 755)
 %config %{_sysconfdir}/rpm/macros.python
 %doc %{_mandir}/man1/python.1*
+%doc %{_mandir}/man1/python2.*
 %doc %{_mandir}/man1/python%{python_version}.1*
 %dir %{_includedir}/python%{python_version}
 %{_includedir}/python%{python_version}/pyconfig.h
@@ -289,7 +290,7 @@ rm -rf %{buildroot}%{_libdir}/python%{python_version}/lib-tk
 %{_libdir}/python%{python_version}/lib-dynload/_multibytecodec.so
 %{_libdir}/python%{python_version}/lib-dynload/Python-%{tarversion}-py%{python_version}.egg-info
 # these modules don't support 64-bit arches (disabled by setup.py)
-%ifnarch x86_64
+%ifnarch x86_64 aarch64
 # requires sizeof(int) == sizeof(long) == sizeof(char*)
 %{_libdir}/python%{python_version}/lib-dynload/dl.so
 %endif
