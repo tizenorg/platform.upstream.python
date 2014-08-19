@@ -1,3 +1,6 @@
+* Tue Aug 19 2014 Chanho Park <chanho61.park@samsung.com> upstream/2.7.8-36-g11532b0
+- Imported Upstream version 2.7.8
+
 * Fri Sep 06 2013 Anas Nashif <anas.nashif@intel.com> accepted/tizen/20130710.215023@f56f704
 - clean up groups/license
 - fix gcc 4.8 incompatibility

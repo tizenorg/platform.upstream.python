@@ -1,5 +1,5 @@
 Name:           python
-Version:        2.7.3
+Version:        2.7.8
 Release:        1
 License:        Python-2.0
 Summary:        Python Interpreter
