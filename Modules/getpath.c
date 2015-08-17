@@ -108,7 +108,7 @@
 #  ifdef __VMS
 #    define PREFIX ""
 #  else
-#    define PREFIX "/usr/local"
+#    define PREFIX "/usr"
 #  endif
 #endif
 
