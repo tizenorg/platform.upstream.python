@@ -62,7 +62,7 @@ typedef struct {
 
 #define CO_MAXBLOCKS 20 /* Max static block nesting within a function */
 
-PyAPI_DATA(PyTypeObject) PyCode_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyCode_Type;
 
 #define PyCode_Check(op) (Py_TYPE(op) == &PyCode_Type)
 #define PyCode_GetNumFree(op) (PyTuple_GET_SIZE((op)->co_freevars))

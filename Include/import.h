@@ -48,7 +48,7 @@ struct _inittab {
     void (*initfunc)(void);
 };
 
-PyAPI_DATA(PyTypeObject) PyNullImporter_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyNullImporter_Type;
 PyAPI_DATA(struct _inittab *) PyImport_Inittab;
 
 PyAPI_FUNC(int) PyImport_AppendInittab(const char *name, void (*initfunc)(void));

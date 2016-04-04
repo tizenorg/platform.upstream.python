@@ -28,8 +28,8 @@ typedef struct {
 } PyByteArrayObject;
 
 /* Type object */
-PyAPI_DATA(PyTypeObject) PyByteArray_Type;
-PyAPI_DATA(PyTypeObject) PyByteArrayIter_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyByteArray_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyByteArrayIter_Type;
 
 /* Type check macros */
 #define PyByteArray_Check(self) PyObject_TypeCheck(self, &PyByteArray_Type)
@@ -39,7 +39,7 @@ PyAPI_DATA(PyTypeObject) PyByteArrayIter_Type;
 PyAPI_FUNC(PyObject *) PyByteArray_FromObject(PyObject *);
 PyAPI_FUNC(PyObject *) PyByteArray_Concat(PyObject *, PyObject *);
 PyAPI_FUNC(PyObject *) PyByteArray_FromStringAndSize(const char *, Py_ssize_t);
-PyAPI_FUNC(Py_ssize_t) PyByteArray_Size(PyObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyByteArray_Size(PyObject *);
 PyAPI_FUNC(char *) PyByteArray_AsString(PyObject *);
 PyAPI_FUNC(int) PyByteArray_Resize(PyObject *, Py_ssize_t);
 

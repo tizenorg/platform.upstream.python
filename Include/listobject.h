@@ -38,14 +38,14 @@ typedef struct {
     Py_ssize_t allocated;
 } PyListObject;
 
-PyAPI_DATA(PyTypeObject) PyList_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyList_Type;
 
 #define PyList_Check(op) \
     PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_LIST_SUBCLASS)
 #define PyList_CheckExact(op) (Py_TYPE(op) == &PyList_Type)
 
 PyAPI_FUNC(PyObject *) PyList_New(Py_ssize_t size);
-PyAPI_FUNC(Py_ssize_t) PyList_Size(PyObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyList_Size(PyObject *);
 PyAPI_FUNC(PyObject *) PyList_GetItem(PyObject *, Py_ssize_t);
 PyAPI_FUNC(int) PyList_SetItem(PyObject *, Py_ssize_t, PyObject *);
 PyAPI_FUNC(int) PyList_Insert(PyObject *, Py_ssize_t, PyObject *);

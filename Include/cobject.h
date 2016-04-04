@@ -40,7 +40,7 @@
 extern "C" {
 #endif
 
-PyAPI_DATA(PyTypeObject) PyCObject_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyCObject_Type;
 
 #define PyCObject_Check(op) (Py_TYPE(op) == &PyCObject_Type)
 

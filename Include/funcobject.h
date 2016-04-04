@@ -37,7 +37,7 @@ typedef struct {
      */
 } PyFunctionObject;
 
-PyAPI_DATA(PyTypeObject) PyFunction_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyFunction_Type;
 
 #define PyFunction_Check(op) (Py_TYPE(op) == &PyFunction_Type)
 
@@ -64,8 +64,8 @@ PyAPI_FUNC(int) PyFunction_SetClosure(PyObject *, PyObject *);
 	(((PyFunctionObject *)func) -> func_closure)
 
 /* The classmethod and staticmethod types lives here, too */
-PyAPI_DATA(PyTypeObject) PyClassMethod_Type;
-PyAPI_DATA(PyTypeObject) PyStaticMethod_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyClassMethod_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyStaticMethod_Type;
 
 PyAPI_FUNC(PyObject *) PyClassMethod_New(PyObject *);
 PyAPI_FUNC(PyObject *) PyStaticMethod_New(PyObject *);

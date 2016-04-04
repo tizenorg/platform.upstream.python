@@ -38,9 +38,9 @@ struct _PyWeakReference {
     PyWeakReference *wr_next;
 };
 
-PyAPI_DATA(PyTypeObject) _PyWeakref_RefType;
-PyAPI_DATA(PyTypeObject) _PyWeakref_ProxyType;
-PyAPI_DATA(PyTypeObject) _PyWeakref_CallableProxyType;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) _PyWeakref_RefType;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) _PyWeakref_ProxyType;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) _PyWeakref_CallableProxyType;
 
 #define PyWeakref_CheckRef(op) PyObject_TypeCheck(op, &_PyWeakref_RefType)
 #define PyWeakref_CheckRefExact(op) \
@@ -59,7 +59,7 @@ PyAPI_FUNC(PyObject *) PyWeakref_NewProxy(PyObject *ob,
                                                 PyObject *callback);
 PyAPI_FUNC(PyObject *) PyWeakref_GetObject(PyObject *ref);
 
-PyAPI_FUNC(Py_ssize_t) _PyWeakref_GetWeakrefCount(PyWeakReference *head);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) _PyWeakref_GetWeakrefCount(PyWeakReference *head);
 
 PyAPI_FUNC(void) _PyWeakref_ClearRef(PyWeakReference *self);
 

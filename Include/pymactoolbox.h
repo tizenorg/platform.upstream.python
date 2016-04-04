@@ -16,11 +16,11 @@
 /*
 ** Helper routines for error codes and such.
 */
-char *PyMac_StrError(int);			/* strerror with mac errors */
-extern PyObject *PyMac_OSErrException;		/* Exception for OSErr */
-PyObject *PyMac_GetOSErrException(void);	/* Initialize & return it */
-PyObject *PyErr_Mac(PyObject *, int);		/* Exception with a mac error */
-PyObject *PyMac_Error(OSErr);			/* Uses PyMac_GetOSErrException */
+__attribute__ ((visibility ("default"))) char *PyMac_StrError(int);			/* strerror with mac errors */
+__attribute__ ((visibility ("default"))) extern PyObject *PyMac_OSErrException;		/* Exception for OSErr */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_GetOSErrException(void);	/* Initialize & return it */
+__attribute__ ((visibility ("default"))) PyObject *PyErr_Mac(PyObject *, int);		/* Exception with a mac error */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_Error(OSErr);			/* Uses PyMac_GetOSErrException */
 #ifndef __LP64__ 
 extern OSErr PyMac_GetFullPathname(FSSpec *, char *, int); /* convert
 							      fsspec->path */
@@ -29,31 +29,31 @@ extern OSErr PyMac_GetFullPathname(FSSpec *, char *, int); /* convert
 /*
 ** These conversion routines are defined in mactoolboxglue.c itself.
 */
-int PyMac_GetOSType(PyObject *, OSType *);	/* argument parser for OSType */
-PyObject *PyMac_BuildOSType(OSType);		/* Convert OSType to PyObject */
+__attribute__ ((visibility ("default"))) int PyMac_GetOSType(PyObject *, OSType *);	/* argument parser for OSType */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildOSType(OSType);		/* Convert OSType to PyObject */
 
-PyObject *PyMac_BuildNumVersion(NumVersion);/* Convert NumVersion to PyObject */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildNumVersion(NumVersion);/* Convert NumVersion to PyObject */
 
-int PyMac_GetStr255(PyObject *, Str255);	/* argument parser for Str255 */
-PyObject *PyMac_BuildStr255(Str255);		/* Convert Str255 to PyObject */
-PyObject *PyMac_BuildOptStr255(Str255);		/* Convert Str255 to PyObject,
+__attribute__ ((visibility ("default"))) int PyMac_GetStr255(PyObject *, Str255);	/* argument parser for Str255 */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildStr255(Str255);		/* Convert Str255 to PyObject */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildOptStr255(Str255);		/* Convert Str255 to PyObject,
 						   NULL to None */
 
-int PyMac_GetRect(PyObject *, Rect *);		/* argument parser for Rect */
-PyObject *PyMac_BuildRect(Rect *);		/* Convert Rect to PyObject */
+__attribute__ ((visibility ("default"))) int PyMac_GetRect(PyObject *, Rect *);		/* argument parser for Rect */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildRect(Rect *);		/* Convert Rect to PyObject */
 
-int PyMac_GetPoint(PyObject *, Point *);	/* argument parser for Point */
-PyObject *PyMac_BuildPoint(Point);		/* Convert Point to PyObject */
+__attribute__ ((visibility ("default"))) int PyMac_GetPoint(PyObject *, Point *);	/* argument parser for Point */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildPoint(Point);		/* Convert Point to PyObject */
 
-int PyMac_GetEventRecord(PyObject *, EventRecord *); /* argument parser for
+__attribute__ ((visibility ("default"))) int PyMac_GetEventRecord(PyObject *, EventRecord *); /* argument parser for
 							EventRecord */
-PyObject *PyMac_BuildEventRecord(EventRecord *); /* Convert EventRecord to
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildEventRecord(EventRecord *); /* Convert EventRecord to
 						    PyObject */
 
-int PyMac_GetFixed(PyObject *, Fixed *);	/* argument parser for Fixed */
-PyObject *PyMac_BuildFixed(Fixed);		/* Convert Fixed to PyObject */
-int PyMac_Getwide(PyObject *, wide *);		/* argument parser for wide */
-PyObject *PyMac_Buildwide(wide *);		/* Convert wide to PyObject */
+__attribute__ ((visibility ("default"))) int PyMac_GetFixed(PyObject *, Fixed *);	/* argument parser for Fixed */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildFixed(Fixed);		/* Convert Fixed to PyObject */
+__attribute__ ((visibility ("default"))) int PyMac_Getwide(PyObject *, wide *);		/* argument parser for wide */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_Buildwide(wide *);		/* Convert wide to PyObject */
 
 /*
 ** The rest of the routines are implemented by extension modules. If they are
@@ -94,19 +94,19 @@ int PyMac_GetFSSpec(PyObject *, FSSpec *);	/* argument parser for FSSpec */
 PyObject *PyMac_BuildFSSpec(FSSpec *);		/* Convert FSSpec to PyObject */
 #endif /* !__LP64__ */
 
-int PyMac_GetFSRef(PyObject *, FSRef *);	/* argument parser for FSRef */
-PyObject *PyMac_BuildFSRef(FSRef *);		/* Convert FSRef to PyObject */
+__attribute__ ((visibility ("default"))) int PyMac_GetFSRef(PyObject *, FSRef *);	/* argument parser for FSRef */
+__attribute__ ((visibility ("default"))) PyObject *PyMac_BuildFSRef(FSRef *);		/* Convert FSRef to PyObject */
 
 /* AE exports */
-extern PyObject *AEDesc_New(AppleEvent *); /* XXXX Why passed by address?? */
-extern PyObject *AEDesc_NewBorrowed(AppleEvent *);
-extern int AEDesc_Convert(PyObject *, AppleEvent *);
+__attribute__ ((visibility ("default"))) extern PyObject *AEDesc_New(AppleEvent *); /* XXXX Why passed by address?? */
+__attribute__ ((visibility ("default"))) extern PyObject *AEDesc_NewBorrowed(AppleEvent *);
+__attribute__ ((visibility ("default"))) extern int AEDesc_Convert(PyObject *, AppleEvent *);
 
 /* Cm exports */
-extern PyObject *CmpObj_New(Component);
-extern int CmpObj_Convert(PyObject *, Component *);
-extern PyObject *CmpInstObj_New(ComponentInstance);
-extern int CmpInstObj_Convert(PyObject *, ComponentInstance *);
+__attribute__ ((visibility ("default"))) extern PyObject *CmpObj_New(Component);
+__attribute__ ((visibility ("default"))) extern int CmpObj_Convert(PyObject *, Component *);
+__attribute__ ((visibility ("default"))) extern PyObject *CmpInstObj_New(ComponentInstance);
+__attribute__ ((visibility ("default"))) extern int CmpInstObj_Convert(PyObject *, ComponentInstance *);
 
 /* Ctl exports */
 #ifndef __LP64__
@@ -172,10 +172,10 @@ extern int MediaObj_Convert(PyObject *, Media *);
 #endif /* !__LP64__ */
 
 /* Res exports */
-extern PyObject *ResObj_New(Handle);
-extern int ResObj_Convert(PyObject *, Handle *);
-extern PyObject *OptResObj_New(Handle);
-extern int OptResObj_Convert(PyObject *, Handle *);
+__attribute__ ((visibility ("default"))) extern PyObject *ResObj_New(Handle);
+__attribute__ ((visibility ("default"))) extern int ResObj_Convert(PyObject *, Handle *);
+__attribute__ ((visibility ("default"))) extern PyObject *OptResObj_New(Handle);
+__attribute__ ((visibility ("default"))) extern int OptResObj_Convert(PyObject *, Handle *);
 
 /* TE exports */
 #ifndef __LP64__
@@ -191,25 +191,25 @@ extern PyObject *WinObj_WhichWindow(WindowPtr);
 #endif /* !__LP64__ */
 
 /* CF exports */
-extern PyObject *CFObj_New(CFTypeRef);
-extern int CFObj_Convert(PyObject *, CFTypeRef *);
-extern PyObject *CFTypeRefObj_New(CFTypeRef);
-extern int CFTypeRefObj_Convert(PyObject *, CFTypeRef *);
-extern PyObject *CFStringRefObj_New(CFStringRef);
-extern int CFStringRefObj_Convert(PyObject *, CFStringRef *);
-extern PyObject *CFMutableStringRefObj_New(CFMutableStringRef);
-extern int CFMutableStringRefObj_Convert(PyObject *, CFMutableStringRef *);
-extern PyObject *CFArrayRefObj_New(CFArrayRef);
-extern int CFArrayRefObj_Convert(PyObject *, CFArrayRef *);
-extern PyObject *CFMutableArrayRefObj_New(CFMutableArrayRef);
-extern int CFMutableArrayRefObj_Convert(PyObject *, CFMutableArrayRef *);
-extern PyObject *CFDictionaryRefObj_New(CFDictionaryRef);
-extern int CFDictionaryRefObj_Convert(PyObject *, CFDictionaryRef *);
-extern PyObject *CFMutableDictionaryRefObj_New(CFMutableDictionaryRef);
-extern int CFMutableDictionaryRefObj_Convert(PyObject *, CFMutableDictionaryRef *);
-extern PyObject *CFURLRefObj_New(CFURLRef);
-extern int CFURLRefObj_Convert(PyObject *, CFURLRef *);
-extern int OptionalCFURLRefObj_Convert(PyObject *, CFURLRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFObj_New(CFTypeRef);
+__attribute__ ((visibility ("default"))) extern int CFObj_Convert(PyObject *, CFTypeRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFTypeRefObj_New(CFTypeRef);
+__attribute__ ((visibility ("default"))) extern int CFTypeRefObj_Convert(PyObject *, CFTypeRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFStringRefObj_New(CFStringRef);
+__attribute__ ((visibility ("default"))) extern int CFStringRefObj_Convert(PyObject *, CFStringRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFMutableStringRefObj_New(CFMutableStringRef);
+__attribute__ ((visibility ("default"))) extern int CFMutableStringRefObj_Convert(PyObject *, CFMutableStringRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFArrayRefObj_New(CFArrayRef);
+__attribute__ ((visibility ("default"))) extern int CFArrayRefObj_Convert(PyObject *, CFArrayRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFMutableArrayRefObj_New(CFMutableArrayRef);
+__attribute__ ((visibility ("default"))) extern int CFMutableArrayRefObj_Convert(PyObject *, CFMutableArrayRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFDictionaryRefObj_New(CFDictionaryRef);
+__attribute__ ((visibility ("default"))) extern int CFDictionaryRefObj_Convert(PyObject *, CFDictionaryRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFMutableDictionaryRefObj_New(CFMutableDictionaryRef);
+__attribute__ ((visibility ("default"))) extern int CFMutableDictionaryRefObj_Convert(PyObject *, CFMutableDictionaryRef *);
+__attribute__ ((visibility ("default"))) extern PyObject *CFURLRefObj_New(CFURLRef);
+__attribute__ ((visibility ("default"))) extern int CFURLRefObj_Convert(PyObject *, CFURLRef *);
+__attribute__ ((visibility ("default"))) extern int OptionalCFURLRefObj_Convert(PyObject *, CFURLRef *);
 
 #ifdef __cplusplus
 	}

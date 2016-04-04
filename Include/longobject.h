@@ -9,7 +9,7 @@ extern "C" {
 
 typedef struct _longobject PyLongObject; /* Revealed in longintrepr.h */
 
-PyAPI_DATA(PyTypeObject) PyLong_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyLong_Type;
 
 #define PyLong_Check(op) \
 		PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_LONG_SUBCLASS)
@@ -24,7 +24,7 @@ PyAPI_FUNC(long) PyLong_AsLong(PyObject *);
 PyAPI_FUNC(long) PyLong_AsLongAndOverflow(PyObject *, int *);
 PyAPI_FUNC(unsigned long) PyLong_AsUnsignedLong(PyObject *);
 PyAPI_FUNC(unsigned long) PyLong_AsUnsignedLongMask(PyObject *);
-PyAPI_FUNC(Py_ssize_t) PyLong_AsSsize_t(PyObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyLong_AsSsize_t(PyObject *);
 PyAPI_FUNC(int) _PyLong_AsInt(PyObject *);
 PyAPI_FUNC(PyObject *) PyLong_GetInfo(void);
 
@@ -74,7 +74,7 @@ PyAPI_FUNC(int) _PyLong_Sign(PyObject *v);
    (size_t)-1 is returned and OverflowError set if the true result doesn't
    fit in a size_t.
 */
-PyAPI_FUNC(size_t) _PyLong_NumBits(PyObject *v);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(size_t) _PyLong_NumBits(PyObject *v);
 
 /* _PyLong_FromByteArray:  View the n unsigned bytes as a binary integer in
    base 256, and return a Python long with the same numeric value.

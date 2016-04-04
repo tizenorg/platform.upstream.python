@@ -52,8 +52,8 @@ typedef struct {
 #define SSTATE_INTERNED_MORTAL 1
 #define SSTATE_INTERNED_IMMORTAL 2
 
-PyAPI_DATA(PyTypeObject) PyBaseString_Type;
-PyAPI_DATA(PyTypeObject) PyString_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyBaseString_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyString_Type;
 
 #define PyString_Check(op) \
                  PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_STRING_SUBCLASS)
@@ -65,7 +65,7 @@ PyAPI_FUNC(PyObject *) PyString_FromFormatV(const char*, va_list)
 				Py_GCC_ATTRIBUTE((format(printf, 1, 0)));
 PyAPI_FUNC(PyObject *) PyString_FromFormat(const char*, ...)
 				Py_GCC_ATTRIBUTE((format(printf, 1, 2)));
-PyAPI_FUNC(Py_ssize_t) PyString_Size(PyObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyString_Size(PyObject *);
 PyAPI_FUNC(char *) PyString_AsString(PyObject *);
 PyAPI_FUNC(PyObject *) PyString_Repr(PyObject *, int);
 PyAPI_FUNC(void) PyString_Concat(PyObject **, PyObject *);
@@ -181,7 +181,7 @@ PyAPI_FUNC(int) PyString_AsStringAndSize(
 /* Using the current locale, insert the thousands grouping
    into the string pointed to by buffer.  For the argument descriptions,
    see Objects/stringlib/localeutil.h */
-PyAPI_FUNC(Py_ssize_t) _PyString_InsertThousandsGroupingLocale(char *buffer,
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) _PyString_InsertThousandsGroupingLocale(char *buffer,
                                   Py_ssize_t n_buffer,
                                   char *digits,
                                   Py_ssize_t n_digits,
@@ -190,7 +190,7 @@ PyAPI_FUNC(Py_ssize_t) _PyString_InsertThousandsGroupingLocale(char *buffer,
 /* Using explicit passed-in values, insert the thousands grouping
    into the string pointed to by buffer.  For the argument descriptions,
    see Objects/stringlib/localeutil.h */
-PyAPI_FUNC(Py_ssize_t) _PyString_InsertThousandsGrouping(char *buffer,
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) _PyString_InsertThousandsGrouping(char *buffer,
                                   Py_ssize_t n_buffer,
                                   char *digits,
                                   Py_ssize_t n_digits,

@@ -152,7 +152,7 @@ PyAPI_DATA(PyThreadState *) _Py_Finalizing;
 
 /* Stuff with no proper home (yet) */
 PyAPI_FUNC(char *) PyOS_Readline(FILE *, FILE *, char *);
-PyAPI_DATA(int) (*PyOS_InputHook)(void);
+__attribute__ ((visibility ("default"))) PyAPI_DATA(int) (*PyOS_InputHook)(void);
 PyAPI_DATA(char) *(*PyOS_ReadlineFunctionPointer)(FILE *, FILE *, char *);
 PyAPI_DATA(PyThreadState*) _PyOS_ReadlineTState;
 
@@ -173,8 +173,8 @@ PyAPI_FUNC(int) PyOS_CheckStack(void);
 
 /* Signals */
 typedef void (*PyOS_sighandler_t)(int);
-PyAPI_FUNC(PyOS_sighandler_t) PyOS_getsig(int);
-PyAPI_FUNC(PyOS_sighandler_t) PyOS_setsig(int, PyOS_sighandler_t);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyOS_sighandler_t) PyOS_getsig(int);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyOS_sighandler_t) PyOS_setsig(int, PyOS_sighandler_t);
 
 /* Random */
 PyAPI_FUNC(int) _PyOS_URandom (void *buffer, Py_ssize_t size);

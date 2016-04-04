@@ -31,14 +31,14 @@ typedef struct {
      */
 } PyTupleObject;
 
-PyAPI_DATA(PyTypeObject) PyTuple_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyTuple_Type;
 
 #define PyTuple_Check(op) \
                  PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_TUPLE_SUBCLASS)
 #define PyTuple_CheckExact(op) (Py_TYPE(op) == &PyTuple_Type)
 
 PyAPI_FUNC(PyObject *) PyTuple_New(Py_ssize_t size);
-PyAPI_FUNC(Py_ssize_t) PyTuple_Size(PyObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyTuple_Size(PyObject *);
 PyAPI_FUNC(PyObject *) PyTuple_GetItem(PyObject *, Py_ssize_t);
 PyAPI_FUNC(int) PyTuple_SetItem(PyObject *, Py_ssize_t, PyObject *);
 PyAPI_FUNC(PyObject *) PyTuple_GetSlice(PyObject *, Py_ssize_t, Py_ssize_t);

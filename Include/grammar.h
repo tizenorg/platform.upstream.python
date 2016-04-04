@@ -68,24 +68,24 @@ typedef struct {
 
 /* FUNCTIONS */
 
-grammar *newgrammar(int start);
-dfa *adddfa(grammar *g, int type, char *name);
-int addstate(dfa *d);
-void addarc(dfa *d, int from, int to, int lbl);
-dfa *PyGrammar_FindDFA(grammar *g, int type);
+__attribute__ ((visibility ("default"))) grammar *newgrammar(int start);
+__attribute__ ((visibility ("default"))) dfa *adddfa(grammar *g, int type, char *name);
+__attribute__ ((visibility ("default"))) int addstate(dfa *d);
+__attribute__ ((visibility ("default"))) void addarc(dfa *d, int from, int to, int lbl);
+__attribute__ ((visibility ("default"))) dfa *PyGrammar_FindDFA(grammar *g, int type);
 
-int addlabel(labellist *ll, int type, char *str);
-int findlabel(labellist *ll, int type, char *str);
-char *PyGrammar_LabelRepr(label *lb);
-void translatelabels(grammar *g);
+__attribute__ ((visibility ("default"))) int addlabel(labellist *ll, int type, char *str);
+__attribute__ ((visibility ("default"))) int findlabel(labellist *ll, int type, char *str);
+__attribute__ ((visibility ("default"))) char *PyGrammar_LabelRepr(label *lb);
+__attribute__ ((visibility ("default"))) void translatelabels(grammar *g);
 
-void addfirstsets(grammar *g);
+__attribute__ ((visibility ("default"))) void addfirstsets(grammar *g);
 
-void PyGrammar_AddAccelerators(grammar *g);
-void PyGrammar_RemoveAccelerators(grammar *);
+__attribute__ ((visibility ("default"))) void PyGrammar_AddAccelerators(grammar *g);
+__attribute__ ((visibility ("default"))) void PyGrammar_RemoveAccelerators(grammar *);
 
-void printgrammar(grammar *g, FILE *fp);
-void printnonterminals(grammar *g, FILE *fp);
+__attribute__ ((visibility ("default"))) void printgrammar(grammar *g, FILE *fp);
+__attribute__ ((visibility ("default"))) void printnonterminals(grammar *g, FILE *fp);
 
 #ifdef __cplusplus
 }

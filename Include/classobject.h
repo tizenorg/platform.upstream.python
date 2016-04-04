@@ -36,7 +36,7 @@ typedef struct {
     PyObject *im_weakreflist; /* List of weak references */
 } PyMethodObject;
 
-PyAPI_DATA(PyTypeObject) PyClass_Type, PyInstance_Type, PyMethod_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyClass_Type, PyInstance_Type, PyMethod_Type;
 
 #define PyClass_Check(op) ((op)->ob_type == &PyClass_Type)
 #define PyInstance_Check(op) ((op)->ob_type == &PyInstance_Type)

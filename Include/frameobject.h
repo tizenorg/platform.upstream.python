@@ -52,7 +52,7 @@ typedef struct _frame {
 
 /* Standard object interface */
 
-PyAPI_DATA(PyTypeObject) PyFrame_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyFrame_Type;
 
 #define PyFrame_Check(op) ((op)->ob_type == &PyFrame_Type)
 #define PyFrame_IsRestricted(f) \

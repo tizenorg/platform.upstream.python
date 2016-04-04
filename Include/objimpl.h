@@ -94,9 +94,9 @@ PyObject_{New, NewVar, Del}.
    the object gets initialized via PyObject_{Init, InitVar} after obtaining
    the raw memory.
 */
-PyAPI_FUNC(void *) PyObject_Malloc(size_t);
-PyAPI_FUNC(void *) PyObject_Realloc(void *, size_t);
-PyAPI_FUNC(void) PyObject_Free(void *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(void *) PyObject_Malloc(size_t);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(void *) PyObject_Realloc(void *, size_t);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(void) PyObject_Free(void *);
 
 
 /* Macros */
@@ -147,11 +147,11 @@ PyAPI_FUNC(void) _PyMem_DebugFree(void *p);
  */
 
 /* Functions */
-PyAPI_FUNC(PyObject *) PyObject_Init(PyObject *, PyTypeObject *);
-PyAPI_FUNC(PyVarObject *) PyObject_InitVar(PyVarObject *,
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyObject *) PyObject_Init(PyObject *, PyTypeObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyVarObject *) PyObject_InitVar(PyVarObject *,
                                                  PyTypeObject *, Py_ssize_t);
-PyAPI_FUNC(PyObject *) _PyObject_New(PyTypeObject *);
-PyAPI_FUNC(PyVarObject *) _PyObject_NewVar(PyTypeObject *, Py_ssize_t);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyObject *) _PyObject_New(PyTypeObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyVarObject *) _PyObject_NewVar(PyTypeObject *, Py_ssize_t);
 
 #define PyObject_New(type, typeobj) \
                 ( (type *) _PyObject_New(typeobj) )
@@ -232,7 +232,7 @@ PyAPI_FUNC(PyVarObject *) _PyObject_NewVar(PyTypeObject *, Py_ssize_t);
  */
 
 /* C equivalent of gc.collect(). */
-PyAPI_FUNC(Py_ssize_t) PyGC_Collect(void);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyGC_Collect(void);
 
 /* Test if a type has a GC head */
 #define PyType_IS_GC(t) PyType_HasFeature((t), Py_TPFLAGS_HAVE_GC)
@@ -241,7 +241,7 @@ PyAPI_FUNC(Py_ssize_t) PyGC_Collect(void);
 #define PyObject_IS_GC(o) (PyType_IS_GC(Py_TYPE(o)) && \
     (Py_TYPE(o)->tp_is_gc == NULL || Py_TYPE(o)->tp_is_gc(o)))
 
-PyAPI_FUNC(PyVarObject *) _PyObject_GC_Resize(PyVarObject *, Py_ssize_t);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyVarObject *) _PyObject_GC_Resize(PyVarObject *, Py_ssize_t);
 #define PyObject_GC_Resize(type, op, n) \
                 ( (type *) _PyObject_GC_Resize((PyVarObject *)(op), (n)) )
 
@@ -258,7 +258,7 @@ typedef union _gc_head {
     long double dummy;  /* force worst-case alignment */
 } PyGC_Head;
 
-extern PyGC_Head *_PyGC_generation0;
+__attribute__ ((visibility ("default"))) extern PyGC_Head *_PyGC_generation0;
 
 #define _Py_AS_GC(o) ((PyGC_Head *)(o)-1)
 
@@ -303,12 +303,12 @@ extern PyGC_Head *_PyGC_generation0;
         (!PyTuple_CheckExact(obj) || _PyObject_GC_IS_TRACKED(obj)))
 
 
-PyAPI_FUNC(PyObject *) _PyObject_GC_Malloc(size_t);
-PyAPI_FUNC(PyObject *) _PyObject_GC_New(PyTypeObject *);
-PyAPI_FUNC(PyVarObject *) _PyObject_GC_NewVar(PyTypeObject *, Py_ssize_t);
-PyAPI_FUNC(void) PyObject_GC_Track(void *);
-PyAPI_FUNC(void) PyObject_GC_UnTrack(void *);
-PyAPI_FUNC(void) PyObject_GC_Del(void *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyObject *) _PyObject_GC_Malloc(size_t);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyObject *) _PyObject_GC_New(PyTypeObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyVarObject *) _PyObject_GC_NewVar(PyTypeObject *, Py_ssize_t);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(void) PyObject_GC_Track(void *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(void) PyObject_GC_UnTrack(void *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(void) PyObject_GC_Del(void *);
 
 #define PyObject_GC_New(type, typeobj) \
                 ( (type *) _PyObject_GC_New(typeobj) )

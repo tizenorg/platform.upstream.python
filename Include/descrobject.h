@@ -67,10 +67,10 @@ typedef struct {
     void *d_wrapped; /* This can be any function pointer */
 } PyWrapperDescrObject;
 
-PyAPI_DATA(PyTypeObject) PyWrapperDescr_Type;
-PyAPI_DATA(PyTypeObject) PyDictProxy_Type;
-PyAPI_DATA(PyTypeObject) PyGetSetDescr_Type;
-PyAPI_DATA(PyTypeObject) PyMemberDescr_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyWrapperDescr_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDictProxy_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyGetSetDescr_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyMemberDescr_Type;
 
 PyAPI_FUNC(PyObject *) PyDescr_NewMethod(PyTypeObject *, PyMethodDef *);
 PyAPI_FUNC(PyObject *) PyDescr_NewClassMethod(PyTypeObject *, PyMethodDef *);
@@ -86,7 +86,7 @@ PyAPI_FUNC(PyObject *) PyDictProxy_New(PyObject *);
 PyAPI_FUNC(PyObject *) PyWrapper_New(PyObject *, PyObject *);
 
 
-PyAPI_DATA(PyTypeObject) PyProperty_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyProperty_Type;
 #ifdef __cplusplus
 }
 #endif

@@ -98,6 +98,9 @@ sed -i 's/^version_required/dnl version_required/' configure.ac
 rm Demo/scripts/newslist.*
 
 %build
+export CFLAGS+=" -fvisibility=hidden"
+  export CXXFLAGS+=" -fvisibility=hidden"
+  
 cp %{S:1001} .
 export OPT=$(echo $RPM_OPT_FLAGS | sed -s "s/--param=ssp-buffer-size=32//g")
 

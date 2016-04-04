@@ -56,8 +56,8 @@ struct _setobject {
     PyObject *weakreflist;      /* List of weak references */
 };
 
-PyAPI_DATA(PyTypeObject) PySet_Type;
-PyAPI_DATA(PyTypeObject) PyFrozenSet_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PySet_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyFrozenSet_Type;
 
 /* Invariants for frozensets:
  *     data is immutable.
@@ -82,7 +82,7 @@ PyAPI_DATA(PyTypeObject) PyFrozenSet_Type;
 
 PyAPI_FUNC(PyObject *) PySet_New(PyObject *);
 PyAPI_FUNC(PyObject *) PyFrozenSet_New(PyObject *);
-PyAPI_FUNC(Py_ssize_t) PySet_Size(PyObject *anyset);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PySet_Size(PyObject *anyset);
 #define PySet_GET_SIZE(so) (((PySetObject *)(so))->used)
 PyAPI_FUNC(int) PySet_Clear(PyObject *set);
 PyAPI_FUNC(int) PySet_Contains(PyObject *anyset, PyObject *key);

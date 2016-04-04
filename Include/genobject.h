@@ -26,7 +26,7 @@ typedef struct {
 	PyObject *gi_weakreflist;
 } PyGenObject;
 
-PyAPI_DATA(PyTypeObject) PyGen_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyGen_Type;
 
 #define PyGen_Check(op) PyObject_TypeCheck(op, &PyGen_Type)
 #define PyGen_CheckExact(op) (Py_TYPE(op) == &PyGen_Type)

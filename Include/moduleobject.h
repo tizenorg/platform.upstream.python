@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-PyAPI_DATA(PyTypeObject) PyModule_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyModule_Type;
 
 #define PyModule_Check(op) PyObject_TypeCheck(op, &PyModule_Type)
 #define PyModule_CheckExact(op) (Py_TYPE(op) == &PyModule_Type)

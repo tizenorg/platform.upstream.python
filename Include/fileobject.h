@@ -32,7 +32,7 @@ typedef struct {
     int writable;
 } PyFileObject;
 
-PyAPI_DATA(PyTypeObject) PyFile_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyFile_Type;
 
 #define PyFile_Check(op) PyObject_TypeCheck(op, &PyFile_Type)
 #define PyFile_CheckExact(op) (Py_TYPE(op) == &PyFile_Type)
@@ -62,13 +62,13 @@ PyAPI_DATA(const char *) Py_FileSystemDefaultEncoding;
    or \r\n as line terminators.
 */
 #define PY_STDIOTEXTMODE "b"
-char *Py_UniversalNewlineFgets(char *, int, FILE*, PyObject *);
-size_t Py_UniversalNewlineFread(char *, size_t, FILE *, PyObject *);
+__attribute__ ((visibility ("default"))) char *Py_UniversalNewlineFgets(char *, int, FILE*, PyObject *);
+__attribute__ ((visibility ("default"))) size_t Py_UniversalNewlineFread(char *, size_t, FILE *, PyObject *);
 
 /* A routine to do sanity checking on the file mode string.  returns
    non-zero on if an exception occurred
 */
-int _PyFile_SanitizeMode(char *mode);
+__attribute__ ((visibility ("default"))) int _PyFile_SanitizeMode(char *mode);
 
 #if defined _MSC_VER && _MSC_VER >= 1400
 /* A routine to check if a file descriptor is valid on Windows.  Returns 0

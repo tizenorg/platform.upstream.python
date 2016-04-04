@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-PyAPI_DATA(PyTypeObject) PyMemoryView_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyMemoryView_Type;
 
 #define PyMemoryView_Check(op) (Py_TYPE(op) == &PyMemoryView_Type)
 

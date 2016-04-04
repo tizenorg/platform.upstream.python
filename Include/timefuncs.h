@@ -14,7 +14,7 @@ extern "C" {
  * to fit in a time_t.  ValueError is set on return iff the return
  * value is (time_t)-1 and PyErr_Occurred().
  */
-PyAPI_FUNC(time_t) _PyTime_DoubleToTimet(double x);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(time_t) _PyTime_DoubleToTimet(double x);
 
 /* Get the current time since the epoch in seconds */
 PyAPI_FUNC(double) _PyTime_FloatTime(void);

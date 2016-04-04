@@ -157,7 +157,7 @@ typedef
 
    Failure is a fatal error.
 */
-PyAPI_FUNC(PyGILState_STATE) PyGILState_Ensure(void);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyGILState_STATE) PyGILState_Ensure(void);
 
 /* Release any resources previously acquired.  After this call, Python's
    state will be the same as it was prior to the corresponding
@@ -192,7 +192,7 @@ PyAPI_FUNC(PyThreadState *) PyThreadState_Next(PyThreadState *);
 typedef struct _frame *(*PyThreadFrameGetter)(PyThreadState *self_);
 
 /* hook for PyEval_GetFrame(), requested for Psyco */
-PyAPI_DATA(PyThreadFrameGetter) _PyThreadState_GetFrame;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyThreadFrameGetter) _PyThreadState_GetFrame;
 
 #ifdef __cplusplus
 }

@@ -21,12 +21,12 @@ typedef struct {
 #define c_pow _Py_c_pow
 #define c_abs _Py_c_abs
 
-PyAPI_FUNC(Py_complex) c_sum(Py_complex, Py_complex);
-PyAPI_FUNC(Py_complex) c_diff(Py_complex, Py_complex);
-PyAPI_FUNC(Py_complex) c_neg(Py_complex);
-PyAPI_FUNC(Py_complex) c_prod(Py_complex, Py_complex);
-PyAPI_FUNC(Py_complex) c_quot(Py_complex, Py_complex);
-PyAPI_FUNC(Py_complex) c_pow(Py_complex, Py_complex);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_complex) c_sum(Py_complex, Py_complex);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_complex) c_diff(Py_complex, Py_complex);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_complex) c_neg(Py_complex);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_complex) c_prod(Py_complex, Py_complex);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_complex) c_quot(Py_complex, Py_complex);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_complex) c_pow(Py_complex, Py_complex);
 PyAPI_FUNC(double) c_abs(Py_complex);
 
 
@@ -42,7 +42,7 @@ typedef struct {
     Py_complex cval;
 } PyComplexObject;     
 
-PyAPI_DATA(PyTypeObject) PyComplex_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyComplex_Type;
 
 #define PyComplex_Check(op) PyObject_TypeCheck(op, &PyComplex_Type)
 #define PyComplex_CheckExact(op) (Py_TYPE(op) == &PyComplex_Type)
@@ -52,7 +52,7 @@ PyAPI_FUNC(PyObject *) PyComplex_FromDoubles(double real, double imag);
 
 PyAPI_FUNC(double) PyComplex_RealAsDouble(PyObject *op);
 PyAPI_FUNC(double) PyComplex_ImagAsDouble(PyObject *op);
-PyAPI_FUNC(Py_complex) PyComplex_AsCComplex(PyObject *op);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_complex) PyComplex_AsCComplex(PyObject *op);
 
 /* Format the object based on the format_spec, as defined in PEP 3101
    (Advanced String Formatting). */

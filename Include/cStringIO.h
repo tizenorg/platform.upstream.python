@@ -27,7 +27,7 @@ extern "C" {
 
 /* Basic functions to manipulate cStringIO objects from C */
 
-static struct PycStringIO_CAPI {
+__attribute__ ((visibility ("default"))) static struct PycStringIO_CAPI {
 
  /* Read a string from an input object.  If the last argument
     is -1, the remainder will be read.

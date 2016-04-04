@@ -16,7 +16,7 @@ typedef struct {
     double ob_fval;
 } PyFloatObject;
 
-PyAPI_DATA(PyTypeObject) PyFloat_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyFloat_Type;
 
 #define PyFloat_Check(op) PyObject_TypeCheck(op, &PyFloat_Type)
 #define PyFloat_CheckExact(op) (Py_TYPE(op) == &PyFloat_Type)

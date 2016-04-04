@@ -46,7 +46,7 @@ typedef struct _symtable_entry {
     struct symtable *ste_table;
 } PySTEntryObject;
 
-PyAPI_DATA(PyTypeObject) PySTEntry_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PySTEntry_Type;
 
 #define PySTEntry_Check(op) (Py_TYPE(op) == &PySTEntry_Type)
 

@@ -18,7 +18,7 @@
 extern "C" {
 #endif
 
-PyAPI_DATA(PyTypeObject) PyCapsule_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyCapsule_Type;
 
 typedef void (*PyCapsule_Destructor)(PyObject *);
 
@@ -32,7 +32,7 @@ PyAPI_FUNC(PyObject *) PyCapsule_New(
 
 PyAPI_FUNC(void *) PyCapsule_GetPointer(PyObject *capsule, const char *name);
 
-PyAPI_FUNC(PyCapsule_Destructor) PyCapsule_GetDestructor(PyObject *capsule);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyCapsule_Destructor) PyCapsule_GetDestructor(PyObject *capsule);
 
 PyAPI_FUNC(const char *) PyCapsule_GetName(PyObject *capsule);
 

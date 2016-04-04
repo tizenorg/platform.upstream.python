@@ -438,9 +438,9 @@ PyAPI_FUNC(int) PyType_IsSubtype(PyTypeObject *, PyTypeObject *);
 #define PyObject_TypeCheck(ob, tp) \
     (Py_TYPE(ob) == (tp) || PyType_IsSubtype(Py_TYPE(ob), (tp)))
 
-PyAPI_DATA(PyTypeObject) PyType_Type; /* built-in 'type' */
-PyAPI_DATA(PyTypeObject) PyBaseObject_Type; /* built-in 'object' */
-PyAPI_DATA(PyTypeObject) PySuper_Type; /* built-in 'super' */
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyType_Type; /* built-in 'type' */
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyBaseObject_Type; /* built-in 'object' */
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PySuper_Type; /* built-in 'super' */
 
 #define PyType_Check(op) \
     PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_TYPE_SUBCLASS)
@@ -491,7 +491,7 @@ PyAPI_FUNC(int) PyNumber_CoerceEx(PyObject **, PyObject **);
 PyAPI_FUNC(void) PyObject_ClearWeakRefs(PyObject *);
 
 /* A slot function whose address we need to compare */
-extern int _PyObject_SlotCompare(PyObject *, PyObject *);
+__attribute__ ((visibility ("default"))) extern int _PyObject_SlotCompare(PyObject *, PyObject *);
 /* Same as PyObject_Generic{Get,Set}Attr, but passing the attributes
    dict as the last parameter. */
 PyAPI_FUNC(PyObject *)
@@ -521,7 +521,7 @@ typedef struct {
     long prefix;
     long suffix;
 } _Py_HashSecret_t;
-PyAPI_DATA(_Py_HashSecret_t) _Py_HashSecret;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(_Py_HashSecret_t) _Py_HashSecret;
 
 #ifdef Py_DEBUG
 PyAPI_DATA(int) _Py_HashSecret_Initialized;
@@ -835,7 +835,7 @@ where NULL (nil) is not suitable (since NULL often means 'error').
 
 Don't forget to apply Py_INCREF() when returning this value!!!
 */
-PyAPI_DATA(PyObject) _Py_NoneStruct; /* Don't use this directly */
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyObject) _Py_NoneStruct; /* Don't use this directly */
 #define Py_None (&_Py_NoneStruct)
 
 /* Macro for returning Py_None from a function */
@@ -845,7 +845,7 @@ PyAPI_DATA(PyObject) _Py_NoneStruct; /* Don't use this directly */
 Py_NotImplemented is a singleton used to signal that an operation is
 not implemented for a given type combination.
 */
-PyAPI_DATA(PyObject) _Py_NotImplementedStruct; /* Don't use this directly */
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyObject) _Py_NotImplementedStruct; /* Don't use this directly */
 #define Py_NotImplemented (&_Py_NotImplementedStruct)
 
 /* Rich comparison opcodes */

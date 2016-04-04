@@ -9,7 +9,7 @@ extern "C" {
 
 typedef PyIntObject PyBoolObject;
 
-PyAPI_DATA(PyTypeObject) PyBool_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyBool_Type;
 
 #define PyBool_Check(x) (Py_TYPE(x) == &PyBool_Type)
 
@@ -17,7 +17,7 @@ PyAPI_DATA(PyTypeObject) PyBool_Type;
 Don't forget to apply Py_INCREF() when returning either!!! */
 
 /* Don't use these directly */
-PyAPI_DATA(PyIntObject) _Py_ZeroStruct, _Py_TrueStruct;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyIntObject) _Py_ZeroStruct, _Py_TrueStruct;
 
 /* Use these macros */
 #define Py_False ((PyObject *) &_Py_ZeroStruct)

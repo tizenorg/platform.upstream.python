@@ -418,7 +418,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
      equivalent to the Python expression: type(o).
        */
 
-     PyAPI_FUNC(Py_ssize_t) PyObject_Size(PyObject *o);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyObject_Size(PyObject *o);
 
        /*
      Return the size of object o.  If the object, o, provides
@@ -430,10 +430,10 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 
        /* For DLL compatibility */
 #undef PyObject_Length
-     PyAPI_FUNC(Py_ssize_t) PyObject_Length(PyObject *o);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyObject_Length(PyObject *o);
 #define PyObject_Length PyObject_Size
 
-     PyAPI_FUNC(Py_ssize_t) _PyObject_LengthHint(PyObject *o, Py_ssize_t);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) _PyObject_LengthHint(PyObject *o, Py_ssize_t);
 
        /*
      Guess the size of object o using len(o) or o.__length_hint__().
@@ -857,7 +857,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
      or NULL with an error raised on failure.
        */
 
-     PyAPI_FUNC(Py_ssize_t) PyNumber_AsSsize_t(PyObject *o, PyObject *exc);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyNumber_AsSsize_t(PyObject *o, PyObject *exc);
 
        /*
      Returns the Integral instance converted to an int. The
@@ -1052,7 +1052,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 
        */
 
-     PyAPI_FUNC(Py_ssize_t) PySequence_Size(PyObject *o);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PySequence_Size(PyObject *o);
 
        /*
      Return the size of sequence object o, or -1 on failure.
@@ -1061,7 +1061,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 
        /* For DLL compatibility */
 #undef PySequence_Length
-     PyAPI_FUNC(Py_ssize_t) PySequence_Length(PyObject *o);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PySequence_Length(PyObject *o);
 #define PySequence_Length PySequence_Size
 
 
@@ -1183,7 +1183,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
     /* Return a pointer to the underlying item array for
        an object retured by PySequence_Fast */
 
-     PyAPI_FUNC(Py_ssize_t) PySequence_Count(PyObject *o, PyObject *value);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PySequence_Count(PyObject *o, PyObject *value);
 
        /*
      Return the number of occurrences on value on o, that is,
@@ -1201,7 +1201,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 #define PY_ITERSEARCH_COUNT    1
 #define PY_ITERSEARCH_INDEX    2
 #define PY_ITERSEARCH_CONTAINS 3
-     PyAPI_FUNC(Py_ssize_t) _PySequence_IterSearch(PyObject *seq,
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) _PySequence_IterSearch(PyObject *seq,
                                         PyObject *obj, int operation);
     /*
       Iterate over seq.  Result depends on the operation:
@@ -1227,7 +1227,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
      is equivalent to the Python expression: value in o.
        */
 
-     PyAPI_FUNC(Py_ssize_t) PySequence_Index(PyObject *o, PyObject *value);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PySequence_Index(PyObject *o, PyObject *value);
 
        /*
      Return the first index for which o[i]=value.  On error,
@@ -1266,7 +1266,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
      This function always succeeds.
        */
 
-     PyAPI_FUNC(Py_ssize_t) PyMapping_Size(PyObject *o);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyMapping_Size(PyObject *o);
 
        /*
      Returns the number of keys in object o on success, and -1 on
@@ -1276,7 +1276,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
 
        /* For DLL compatibility */
 #undef PyMapping_Length
-     PyAPI_FUNC(Py_ssize_t) PyMapping_Length(PyObject *o);
+     __attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyMapping_Length(PyObject *o);
 #define PyMapping_Length PyMapping_Size
 
 

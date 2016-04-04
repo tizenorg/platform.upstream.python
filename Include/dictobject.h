@@ -88,13 +88,13 @@ struct _dictobject {
     PyDictEntry ma_smalltable[PyDict_MINSIZE];
 };
 
-PyAPI_DATA(PyTypeObject) PyDict_Type;
-PyAPI_DATA(PyTypeObject) PyDictIterKey_Type;
-PyAPI_DATA(PyTypeObject) PyDictIterValue_Type;
-PyAPI_DATA(PyTypeObject) PyDictIterItem_Type;
-PyAPI_DATA(PyTypeObject) PyDictKeys_Type;
-PyAPI_DATA(PyTypeObject) PyDictItems_Type;
-PyAPI_DATA(PyTypeObject) PyDictValues_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDict_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDictIterKey_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDictIterValue_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDictIterItem_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDictKeys_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDictItems_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyDictValues_Type;
 
 #define PyDict_Check(op) \
                  PyType_FastSubclass(Py_TYPE(op), Py_TPFLAGS_DICT_SUBCLASS)
@@ -118,7 +118,7 @@ PyAPI_FUNC(int) _PyDict_Next(
 PyAPI_FUNC(PyObject *) PyDict_Keys(PyObject *mp);
 PyAPI_FUNC(PyObject *) PyDict_Values(PyObject *mp);
 PyAPI_FUNC(PyObject *) PyDict_Items(PyObject *mp);
-PyAPI_FUNC(Py_ssize_t) PyDict_Size(PyObject *mp);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyDict_Size(PyObject *mp);
 PyAPI_FUNC(PyObject *) PyDict_Copy(PyObject *mp);
 PyAPI_FUNC(int) PyDict_Contains(PyObject *mp, PyObject *key);
 PyAPI_FUNC(int) _PyDict_Contains(PyObject *mp, PyObject *key, long hash);

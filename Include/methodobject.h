@@ -11,7 +11,7 @@ extern "C" {
    not Python methods in user-defined classes.  See classobject.h
    for the latter. */
 
-PyAPI_DATA(PyTypeObject) PyCFunction_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyCFunction_Type;
 
 #define PyCFunction_Check(op) (Py_TYPE(op) == &PyCFunction_Type)
 
@@ -20,7 +20,7 @@ typedef PyObject *(*PyCFunctionWithKeywords)(PyObject *, PyObject *,
 					     PyObject *);
 typedef PyObject *(*PyNoArgsFunction)(PyObject *);
 
-PyAPI_FUNC(PyCFunction) PyCFunction_GetFunction(PyObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyCFunction) PyCFunction_GetFunction(PyObject *);
 PyAPI_FUNC(PyObject *) PyCFunction_GetSelf(PyObject *);
 PyAPI_FUNC(int) PyCFunction_GetFlags(PyObject *);
 

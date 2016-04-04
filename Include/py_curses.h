@@ -89,7 +89,7 @@ typedef struct {
 #else
 /* This section is used in modules that use the _cursesmodule API */
 
-static void **PyCurses_API;
+__attribute__ ((visibility ("default"))) static void **PyCurses_API;
 
 #define PyCursesWindow_Type (*(PyTypeObject *) PyCurses_API[0])
 #define PyCursesSetupTermCalled  {if (! ((int (*)(void))PyCurses_API[1]) () ) return NULL;}
@@ -102,8 +102,8 @@ static void **PyCurses_API;
 #endif
 
 /* general error messages */
-static char *catchall_ERR  = "curses function returned ERR";
-static char *catchall_NULL = "curses function returned NULL";
+__attribute__ ((visibility ("default"))) static char *catchall_ERR  = "curses function returned ERR";
+__attribute__ ((visibility ("default"))) static char *catchall_NULL = "curses function returned NULL";
 
 /* Function Prototype Macros - They are ugly but very, very useful. ;-)
 

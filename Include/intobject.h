@@ -25,7 +25,7 @@ typedef struct {
     long ob_ival;
 } PyIntObject;
 
-PyAPI_DATA(PyTypeObject) PyInt_Type;
+__attribute__ ((visibility ("default"))) PyAPI_DATA(PyTypeObject) PyInt_Type;
 
 #define PyInt_Check(op) \
 		 PyType_FastSubclass((op)->ob_type, Py_TPFLAGS_INT_SUBCLASS)
@@ -39,7 +39,7 @@ PyAPI_FUNC(PyObject *) PyInt_FromLong(long);
 PyAPI_FUNC(PyObject *) PyInt_FromSize_t(size_t);
 PyAPI_FUNC(PyObject *) PyInt_FromSsize_t(Py_ssize_t);
 PyAPI_FUNC(long) PyInt_AsLong(PyObject *);
-PyAPI_FUNC(Py_ssize_t) PyInt_AsSsize_t(PyObject *);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(Py_ssize_t) PyInt_AsSsize_t(PyObject *);
 PyAPI_FUNC(int) _PyInt_AsInt(PyObject *);
 PyAPI_FUNC(unsigned long) PyInt_AsUnsignedLongMask(PyObject *);
 #ifdef HAVE_LONG_LONG

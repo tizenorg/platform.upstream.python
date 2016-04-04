@@ -14,14 +14,14 @@ PyAPI_FUNC(long) PyThread_start_new_thread(void (*)(void *), void *);
 PyAPI_FUNC(void) PyThread_exit_thread(void);
 PyAPI_FUNC(long) PyThread_get_thread_ident(void);
 
-PyAPI_FUNC(PyThread_type_lock) PyThread_allocate_lock(void);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(PyThread_type_lock) PyThread_allocate_lock(void);
 PyAPI_FUNC(void) PyThread_free_lock(PyThread_type_lock);
 PyAPI_FUNC(int) PyThread_acquire_lock(PyThread_type_lock, int);
 #define WAIT_LOCK	1
 #define NOWAIT_LOCK	0
 PyAPI_FUNC(void) PyThread_release_lock(PyThread_type_lock);
 
-PyAPI_FUNC(size_t) PyThread_get_stacksize(void);
+__attribute__ ((visibility ("default"))) PyAPI_FUNC(size_t) PyThread_get_stacksize(void);
 PyAPI_FUNC(int) PyThread_set_stacksize(size_t);
 
 /* Thread Local Storage (TLS) API */

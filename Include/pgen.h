@@ -7,10 +7,10 @@ extern "C" {
 
 /* Parser generator interface */
 
-extern grammar *meta_grammar(void);
+__attribute__ ((visibility ("default"))) extern grammar *meta_grammar(void);
 
 struct _node;
-extern grammar *pgen(struct _node *);
+__attribute__ ((visibility ("default"))) extern grammar *pgen(struct _node *);
 
 #ifdef __cplusplus
 }
