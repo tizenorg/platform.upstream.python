@@ -103,6 +103,7 @@ export CFLAGS+=" -fvisibility=hidden"
   
 cp %{S:1001} .
 export OPT=$(echo $RPM_OPT_FLAGS | sed -s "s/--param=ssp-buffer-size=32//g")
+export OPT+=" -fvisibility=hidden"
 
 autoreconf -f -i . # Modules/_ctypes/libffi
 # prevent make from trying to rebuild asdl stuff, which requires existing
